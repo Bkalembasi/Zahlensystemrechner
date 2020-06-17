@@ -60,7 +60,7 @@ namespace Zahlensystemrechner
             {
                 Number number = new Number(calcArray[i]);
                 number.SetIndex(i);
-                //Falls das Zahlenobjekt nicht erstellt werden konnte, brich ab und merke dir die Stelle des Fehlers
+                //Falls das Zahlenobjekt nicht erstellt werden konnte, brich ab, setze error = true und merke dir die Stelle des Fehlers
                 if (number.GetErrror())
                 {
                     error = true;

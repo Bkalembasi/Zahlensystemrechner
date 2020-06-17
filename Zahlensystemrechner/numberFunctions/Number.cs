@@ -35,6 +35,7 @@ namespace Zahlensystemrechner {
 		private Boolean error;
 		//Position im Term Array
 		private int index;
+		//Ist die eingegebene Zahl ein Opertaor?
 		private Boolean isOperator;
 
 		//Default Constructor, falls eine Zahl (z.B. für das Rechenergebniss) erstellt werden muss
@@ -167,7 +168,7 @@ namespace Zahlensystemrechner {
 			return hexDec;
 		}
 
-		//splittet den Prefix der Eingabe ab und setzt den Wert des enstprechenden Zahlensystem gleich der Eingabe 
+		//splittet den Prefix der Eingabe ab und setzt den Wert des enstprechenden Zahlensystem gleich der Eingabe
 		//sollte kein Prefix eingegeben werden, wird der die Eingabe automatisch auf den den Dezimalwert der Zahl übertragen
 		private string GetNumberValue(string input)
 		{
