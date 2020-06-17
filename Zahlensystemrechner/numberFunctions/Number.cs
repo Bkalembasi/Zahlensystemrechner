@@ -19,7 +19,7 @@ namespace Zahlensystemrechner {
 		//Konstante mit dem Wert, der benötigt wird, um vom Dezimal- ins Hexadezimalsystem
 		//und vom Hexadezimal- ins Dezimalsystem umzurechnen
 		public const int HEXDECIMAL = 16;
-		private string[] operators = { "(", ")", "*", "/", "+", "-", "^", ""};
+		private string[] operators = { "(", ")", "*", "/", "+", "-", "^", "" };
 
 		//Die Zahl als Binärzahl
 		private string binaryNumber;
@@ -81,11 +81,13 @@ namespace Zahlensystemrechner {
 			return hexDecNumber;
 		}
 
+		//gib den gespeicherten Index der Zahl zurück
 		public int GetIndex()
 		{
 			return index;
 		}
 
+		//speichert den Index, den die Zahl im Eingabearray hat.
 		public void SetIndex(int index)
 		{
 			this.index = index;
@@ -201,7 +203,12 @@ namespace Zahlensystemrechner {
 						}
 						break;
 					default:
-						if (CheckInput(value, 10))
+						//Wenn ein falsches Prefix eingegeben wurde (zB HB_)
+						if(value != "") 
+						{
+							error = true;
+						}
+						else if (CheckInput(input, 10))
 						{
 							originalNumber = NumberType.decNumber;
 							decNumber = long.Parse(input);
@@ -219,6 +226,7 @@ namespace Zahlensystemrechner {
 		//Überprüft, ob der eingegebene Zahlenstring richtig ist.
 		private Boolean CheckInput(String input, int system) {
 			List<string> symbols = new List<string>();
+			Boolean errorNumber = true;
 			for(int i = 0; i < system; i++) {
 				symbols.Add(System.Convert.ToString(i));
 				if(i > 9) {
@@ -227,10 +235,11 @@ namespace Zahlensystemrechner {
 			}
 			for(int i = 0; i < input.Length; i++) {
 				if(!symbols.Contains(System.Convert.ToString(input[i]))) {
-					return false;
+					errorNumber = false;
 				}		 
 			}
-			return true;
+			error = !errorNumber;
+			return errorNumber;
 		}
 
 		//Gibt den Wert der ensprechenden Konaste des usprünglichen Zahlensystems als double zurück

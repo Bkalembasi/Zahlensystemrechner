@@ -7,20 +7,20 @@ namespace Zahlensystemrechner
 {
     public class CalcInput
     {
-        //Array der Eingabe
-        private string[] inputArray;
         //Eine Kopie des Eingabearrays, in dem alle Zahlen ins Dezimalsystem umgewandelt werden
         private string[] calcArray;
         //Hat die Eingabe einen Fehler? (zB eine Binärzahl mit einer 3)
         private Boolean error = false;
         //Position des Eingabefehlers (Falls einer vorhanden ist)
         private int errorPosition = 0;
+        //Liste, die alle generierten Zahlenobjekte enthält
         private List<Number> numberList;
 
         public CalcInput(string input)
         {
-            inputArray = SplitInput(input.ToUpper().Replace(":", "/"));
-            calcArray = CreateCalcArray();
+            numberList = new List<Number>();
+            calcArray = SplitInput(input.ToUpper().Replace(":", "/"));
+            ReplaceCalcArray();
         }
 
         //Gebe das Dezimalarray für die Berechnung zurück
@@ -54,33 +54,29 @@ namespace Zahlensystemrechner
         }
 
         //Erstelle eine Kopie des Eingabearrays, in dem alle Zahlen ins Dezimalsystem umgewandelt sind
-        private string[] CreateCalcArray()
+        private void ReplaceCalcArray()
         {
-            string[] decArray = new string[inputArray.Length];
-            for (int i = 0; i < inputArray.Length; i++)
+            for (int i = 0; i < calcArray.Length; i++)
             {
-                Number number = new Number(inputArray[i]);
-                if (!number.GetErrror())
-                {
-                    if (number.GetIsOperator())
-                    {
-                        decArray[i] = inputArray[i];
-                    }
-                    else
-                    {
-                        numberList.Add(number);
-                        decArray[i] = number.GetDecNumber();
-                    }
-                }
-                else
+                Number number = new Number(calcArray[i]);
+                number.SetIndex(i);
+                //Falls das Zahlenobjekt nicht erstellt werden konnte, brich ab und merke dir die Stelle des Fehlers
+                if (number.GetErrror())
                 {
                     error = true;
                     errorPosition = i;
                     break;
                 }
+                else
+                {
+                    if(!number.GetIsOperator())
+                    { 
+                        numberList.Add(number);
+                        calcArray[i] = number.GetDecNumber();
+                    }
+                }
 
             }
-            return decArray;
         }
     }
 }
