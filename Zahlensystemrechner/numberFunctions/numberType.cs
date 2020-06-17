@@ -1,10 +1,12 @@
 ﻿using System;
 
-    enum NumberType
+namespace Zahlensystemrechner
 {
+    enum NumberType
+    {
         binaryNumber,
         octaNumber,
         decNumber,
         hexDecNumber
+    }
 }
-
