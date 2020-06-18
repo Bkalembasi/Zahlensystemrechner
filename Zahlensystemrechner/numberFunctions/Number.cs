@@ -117,7 +117,7 @@ namespace Zahlensystemrechner {
 		private int HexToDec(char number)
 		{
 			int decValue = 0;
-			switch(decNumber)
+			switch(number)
 			{
 				case 'A': 
 					decValue = 10;
@@ -290,8 +290,18 @@ namespace Zahlensystemrechner {
 			for(int i = 0; i < number.Length; i++)
 			{
 				//-'0' da ein char bei einer Konvertierung nach int immer in seinen Ascii-Wert umgewandelt wird.
-				int indexNumber = System.Convert.ToInt32(number[i]-'0');
-				int exponent = number.Length - (i+1);
+				char numberChar = number[i];
+				int indexNumber = 0;
+
+				if ((numberChar - '0') > 9)
+				{
+					indexNumber = HexToDec(numberChar);
+				}
+				else
+				{
+					indexNumber = System.Convert.ToInt32(number[i] - '0');
+				}
+				int exponent = number.Length - (i + 1);
 				decNumber = decNumber + System.Convert.ToInt64(indexNumber * Math.Pow(system, exponent));
 			}
 		}

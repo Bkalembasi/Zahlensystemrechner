@@ -125,4 +125,11 @@ public class BasicCalc
         counter++;
         return erg;
     }
+
+    public long GetSolution(String[] dezArray)
+    {
+        long solution = Convert.ToInt64(Add_sub(dezArray));
+
+        return solution;
+    }
 }

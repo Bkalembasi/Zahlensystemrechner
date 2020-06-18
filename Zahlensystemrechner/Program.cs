@@ -15,7 +15,7 @@ namespace Zahlensystemrechner
         int hoehe = Console.WindowHeight;
         bool geaendert = true;
 
-        private void writeUI()
+        private void WriteUI()
         {
             BuildRectangle rec = new BuildRectangle();
             Calculator calc = new Calculator();
@@ -33,21 +33,37 @@ namespace Zahlensystemrechner
                     rec.writeInfoText();
                     calc.WriteCalculator();
                 }
-                if (!(breite==Console.WindowWidth) && !(hoehe==Console.WindowHeight))
+                if (!(breite==Console.WindowWidth) || !(hoehe==Console.WindowHeight))
                 {
                     geaendert = true;
                 }
             }
         }
 
+        private void StartCalc()
+        {
+            while (true)
+            {
+                String term = Convert.ToString(Console.ReadLine());
+                CalcInput calc = new CalcInput(term);
+                BasicCalc startCalc = new BasicCalc();
+
+                String[] dezArray = calc.GetCalcArray();
+                long solution = startCalc.GetSolution(dezArray);
+                //TODO 
+                Console.WriteLine("Ergebnis =  " + solution);
+            }
+        }
+
+
         public static void Main(string[] args)
         {
             Programm calculator = new Programm();
 
-            Thread ui = new Thread(new ThreadStart(calculator.writeUI));
+            Thread ui = new Thread(new ThreadStart(calculator.WriteUI));
             ui.Start();
-
-            String term = Convert.ToString(Console.ReadLine());          
+            Thread calc = new Thread(new ThreadStart(calculator.StartCalc));
+            calc.Start();
         }
     }
 }
