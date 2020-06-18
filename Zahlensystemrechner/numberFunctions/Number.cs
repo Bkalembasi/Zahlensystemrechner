@@ -76,6 +76,7 @@ namespace Zahlensystemrechner {
 		public void SetDecNumber(long numberValue)
 		{
 			this.decNumber = numberValue;
+			this.originalNumber = NumberType.decNumber;
 		}
 		//gbt die Zahl als Hexadezimalzahl zurück
 		public string GetHexDecNumber()
@@ -110,7 +111,7 @@ namespace Zahlensystemrechner {
 		//Rechne die Zahl in die anderen Zahlensysteme um
 		public void ToOtherSystems()
 		{
-			FromDecNumer();
+			FromDecNumber();
 		}
 
 		//Rechnet die Zahlen A-F des Hexadezimalzahlensystems ihre ensprechenden Werte im Dezimalzahlensystem um
@@ -324,20 +325,43 @@ namespace Zahlensystemrechner {
 		}
 
 		//Rechnet den gespeicherten Wert der Dezimalzahl, in die Werte, der noch nicht gespeicherten Zahlensysteme um
-		private void FromDecNumer()
+		private void FromDecNumber()
 		{
 			int[] systemsToCalculate = GetSystemsToCalculate();
 			for(int i = 0; i < systemsToCalculate.Length; i++)
 			{	
-				int decNumberCopy = System.Convert.ToInt32(decNumber);
+				long decNumberCopy = System.Convert.ToInt64(decNumber);
 				string number = "";
 				while( decNumberCopy > 0 )
 				{
-					number = (decNumberCopy % systemsToCalculate[i]) + number;
+					int num = System.Convert.ToInt32(decNumberCopy % systemsToCalculate[i]);
+
+					if (num > 9)
+                    {
+						number = DecToHex(num) + number;
+                    }
+                    else
+                    {
+						number = num + number;
+                    }
+					
 					decNumberCopy = decNumberCopy / systemsToCalculate[i];
 				}
 				SetNumberSystemValue(systemsToCalculate[i], number);
 			}
 		}
+
+		public String getAllSystems()
+        {
+			String allSystemSolution = "";
+
+			this.ToOtherSystems();
+			allSystemSolution += "Binär: " + this.GetBinaryNumber() + "\n";
+			allSystemSolution += "Dezimal: " + this.GetDecNumber() +"\n";
+			allSystemSolution += "Hexadezimal: " + this.GetHexDecNumber() + "\n";
+			allSystemSolution += "Oktalsystem:" + this.GetOctaNumber();
+
+			return allSystemSolution;
+        }
 	}
 }

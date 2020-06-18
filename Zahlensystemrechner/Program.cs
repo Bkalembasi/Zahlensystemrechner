@@ -51,7 +51,11 @@ namespace Zahlensystemrechner
                 String[] dezArray = calc.GetCalcArray();
                 long solution = startCalc.GetSolution(dezArray);
                 //TODO 
-                Console.WriteLine("Ergebnis =  " + solution);
+                Number solNumber = new Number();
+                solNumber.SetDecNumber(solution);
+                String newSolution = solNumber.getAllSystems();
+
+                Console.WriteLine(newSolution);
             }
         }
 
