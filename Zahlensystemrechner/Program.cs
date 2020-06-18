@@ -3,12 +3,41 @@ using System.ComponentModel.Design;
 using System.Drawing;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography.X509Certificates;
+using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Zahlensystemrechner
 {
-    class Program
+    class Rahmen
     {
-        static void Main(string[] args)
+        int breite = Console.WindowWidth;
+        int hoehe = Console.WindowHeight;
+        bool geaendert = true;
+
+        private void ZeichneRahmen()
+        {
+            while (true)
+            { 
+                if (geaendert)
+                {
+
+                    Console.Clear();
+                    geaendert = false;
+                    Console.WriteLine(this.breite);
+                    Console.WriteLine(this.hoehe);
+                    this.breite = Console.WindowWidth;
+                    this.hoehe = Console.WindowHeight;
+                }
+                if (!(breite==Console.WindowWidth) && !(hoehe==Console.WindowHeight))
+                {
+                    geaendert = true;
+
+                }
+            }
+        }
+
+        public static void Main(string[] args)
         {
             string term;
             BuildRectangle rec = new BuildRectangle();
@@ -53,6 +82,9 @@ namespace Zahlensystemrechner
             Console.WriteLine("");
             Console.SetCursorPosition(1, 15);
             Console.WriteLine("Eingabe der Rechnung:");
+            Rahmen rahmen = new Rahmen();
+            Thread t = new Thread(new ThreadStart(rahmen.ZeichneRahmen));
+            t.Start();
         }
     }
 }
