@@ -19,6 +19,7 @@ namespace Zahlensystemrechner {
 		//Konstante mit dem Wert, der benötigt wird, um vom Dezimal- ins Hexadezimalsystem
 		//und vom Hexadezimal- ins Dezimalsystem umzurechnen
 		public const int HEXDECIMAL = 16;
+		//Array, das alle Operatoren, die unser Programm akzeptiert als String speichert. 
 		private string[] operators = { "(", ")", "*", "/", "+", "-", "^", "" };
 
 		//Die Zahl als Binärzahl
