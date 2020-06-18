@@ -227,7 +227,8 @@ namespace Zahlensystemrechner {
 		//Überprüft, ob der eingegebene Zahlenstring richtig ist.
 		private Boolean CheckInput(String input, int system) {
 			List<string> symbols = new List<string>();
-			Boolean errorNumber = true;
+			Boolean isOk = true;
+			//Erstelle eine Liste mit allen Zeichen, die eine Zahl im gewählten Zahlensystem enthalten darf
 			for(int i = 0; i < system; i++) {
 				symbols.Add(System.Convert.ToString(i));
 				if(i > 9) {
@@ -235,12 +236,15 @@ namespace Zahlensystemrechner {
 				}
 			}
 			for(int i = 0; i < input.Length; i++) {
+				//Falls die Eingabe ein ungültiges Zeichen enhält setzte isOk auf false
 				if(!symbols.Contains(System.Convert.ToString(input[i]))) {
-					errorNumber = false;
+					isOk = false;
 				}		 
 			}
-			error = !errorNumber;
-			return errorNumber;
+			//Setze error auf das Gegenteil von isOk. Denn wenn der String ok ist (isOk = true), enhält die Eingabe keinen Fehler
+			//(und damit error = false)
+			error = !isOk;
+			return isOk;
 		}
 
 		//Gibt den Wert der ensprechenden Konaste des usprünglichen Zahlensystems als double zurück
@@ -284,6 +288,7 @@ namespace Zahlensystemrechner {
 			double system = GetNumberSystemValue();
 			for(int i = 0; i < number.Length; i++)
 			{
+				//-'0' da ein char bei einer Konvertierung nach int immer in seinen Ascii-Wert umgewandelt wird.
 				int indexNumber = System.Convert.ToInt32(number[i]-'0');
 				int exponent = number.Length - (i+1);
 				decNumber = decNumber + System.Convert.ToInt64(indexNumber * Math.Pow(system, exponent));

@@ -16,6 +16,9 @@ namespace Zahlensystemrechner
         //Liste, die alle generierten Zahlenobjekte enthält
         private List<Number> numberList;
 
+        //Initialisiere die numberList, damit dort etwas gespeichert werden kann
+        //Ersetze alle klein geschriebenen Buchstaben durch die Großen und ersetze ":" durch "/"
+        //Splitte den String bei Zahlen und Operatoren und wandle alle Zahlen ins Dezimalsystem um
         public CalcInput(string input)
         {
             numberList = new List<Number>();
@@ -57,11 +60,13 @@ namespace Zahlensystemrechner
             return result;
         }
 
-        //Erstelle eine Kopie des Eingabearrays, in dem alle Zahlen ins Dezimalsystem umgewandelt sind
+        //Ersetze die nicht Dezimalzahlen durch Zahlen des Dezimalsystem, die den gleichen Wert haben
+        //Speichere die Zahlenobjekte in der numberList
         private void ReplaceCalcArray()
         {
             for (int i = 0; i < calcArray.Length; i++)
             {
+                //Generiere für jeden String ein Zahlenobjekt
                 Number number = new Number(calcArray[i]);
                 number.SetIndex(i);
                 //Falls das Zahlenobjekt nicht erstellt werden konnte, brich ab, setze error = true und merke dir die Stelle des Fehlers
@@ -73,6 +78,8 @@ namespace Zahlensystemrechner
                 }
                 else
                 {
+                    //Falls das erstellte Zahlenobejekt kein Operator ist, speichere es in der numberList
+                    //und tausche im Array die Zahl durch ihr Äquivalent im Dezimalsystem aus
                     if(!number.GetIsOperator())
                     { 
                         numberList.Add(number);
