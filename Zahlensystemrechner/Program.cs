@@ -24,7 +24,7 @@ namespace Zahlensystemrechner
             { 
                 if (geaendert)
                 {
-                    Infobox inf = new Infobox(Console.WindowWidth / 3 - 3, Console.WindowWidth / 3 * 2 + 1, 1);
+                    Infobox inf = new RightInfoBox();
                     Console.Clear();
                     geaendert = false;
                     this.breite = Console.WindowWidth;
@@ -44,6 +44,14 @@ namespace Zahlensystemrechner
         {
             while (true)
             {
+                //Warten bis das Fenster gezeichnet ist
+                Thread.Sleep(300);
+                //Inputfeld mitte mit Cursor setzten 
+                Infobox inputField = new InputField();
+                Infobox solField = new LeftInfoBox();
+
+                inputField.SetCursorPosition();
+
                 String term = Convert.ToString(Console.ReadLine());
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
@@ -53,7 +61,8 @@ namespace Zahlensystemrechner
                 
                 Number solNumber = new Number();
                 solNumber.SetDecNumber(solution);
-                
+                solField.WriteInfoText(System.Convert.ToString(solution));
+
                 //TODO Ausgabe
             }
         }

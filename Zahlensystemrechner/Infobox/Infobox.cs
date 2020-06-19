@@ -5,19 +5,17 @@ using Zahlensystemrechner;
 
 namespace Zahlensystemrechner
 {
-    class Infobox
+    abstract class Infobox
     {
-        int width;
-        int coordX;
-        int coordY;
-        private int[] coords = new int[3];
+        protected int width;
+        protected int coordX;
+        protected int coordY;
 
-        public Infobox(int width, int coordX, int coordY)
+        public Infobox()
         {
-            this.width = width;
-            this.coordX = coordX;
-            this.coordY = coordY;
         }
+
+        public abstract void Init();
 
         public void InfoTextContent()
         {
@@ -36,6 +34,11 @@ namespace Zahlensystemrechner
             WriteInfoText("Binär: B_");
             WriteInfoText("Hexadezimal: H_");
             WriteInfoText("Dezimal: ohne Präfix");
+        }
+
+        public void SetCursorPosition()
+        {
+            Console.SetCursorPosition(this.coordX, this.coordY);
         }
 
         public void WriteInfoText(string s)
