@@ -53,7 +53,7 @@ namespace Zahlensystemrechner
                 
                 Number solNumber = new Number();
                 solNumber.SetDecNumber(solution);
-                
+                Console.Write(solution);
                 //TODO Ausgabe
             }
         }

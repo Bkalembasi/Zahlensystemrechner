@@ -9,6 +9,8 @@ namespace Zahlensystemrechner
     {
         //Eine Kopie des Eingabearrays, in dem alle Zahlen ins Dezimalsystem umgewandelt werden
         private string[] calcArray;
+        //Das Array des eigentlichen Terms
+        private string[] originArray;
         //Hat die Eingabe einen Fehler? (zB eine Binärzahl mit einer 3)
         private Boolean error = false;
         //Position des Eingabefehlers (Falls einer vorhanden ist)
@@ -23,6 +25,7 @@ namespace Zahlensystemrechner
         {
             numberList = new List<Number>();
             calcArray = SplitInput(input.ToUpper().Replace(":", "/"));
+            originArray = calcArray;
             ReplaceCalcArray();
         }
 
@@ -30,6 +33,12 @@ namespace Zahlensystemrechner
         public string[] GetCalcArray()
         {
             return calcArray;
+        }
+
+        //Gebe das Array der ursprünglichen Eingabe zurück
+        public string[] GetOriginArray()
+        {
+            return originArray;
         }
 
         //Gebe Error zurück
