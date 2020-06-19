@@ -40,6 +40,10 @@ namespace Zahlensystemrechner
 
         public void WriteInfoText(string s)
         {
+            if (this.coordX > Console.WindowWidth || this.coordY > Console.WindowHeight)
+            {
+                return;
+            }
             int wordlength = 0;
             string[] words = s.Split(' ');
 
@@ -56,7 +60,7 @@ namespace Zahlensystemrechner
                 }
                 Console.Write(words[i] + " ");
             }
-            coordY++;
+            this.coordY++;
         }
     }
 }
