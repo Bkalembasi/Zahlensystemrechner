@@ -22,11 +22,15 @@ namespace Zahlensystemrechner
         //Ersetze alle klein geschriebenen Buchstaben durch die Großen und ersetze ":" durch "/"
         //Splitte den String bei Zahlen und Operatoren und wandle alle Zahlen ins Dezimalsystem um
         public CalcInput(string input)
-        {
+        { 
             numberList = new List<Number>();
             calcArray = SplitInput(input.ToUpper().Replace(":", "/"));
             originArray = calcArray;
             ReplaceCalcArray();
+            if(input == "")
+            {
+                this.error = true;
+            }
         }
 
         //Gebe das Dezimalarray für die Berechnung zurück

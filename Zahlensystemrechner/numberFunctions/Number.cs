@@ -172,22 +172,27 @@ namespace Zahlensystemrechner {
 	
 		//Überprüft, ob der eingegebene Zahlenstring richtig ist.
 		private Boolean CheckInput(String input, int system) {
+			Boolean isOk = true;            
 			List<string> symbols = new List<string>();
-			Boolean isOk = true;
 			//Erstelle eine Liste mit allen Zeichen, die eine Zahl im gewählten Zahlensystem enthalten darf
-			for(int i = 0; i < system; i++) {
+			for (int i = 0; i < system; i++)
+			{
 				symbols.Add(System.Convert.ToString(i));
-				if(i > 9) {
+				if (i > 9)
+				{
 					char hexNum = System.Convert.ToChar(hexConvert(i, true));
 					symbols.Add(System.Convert.ToString(hexNum));
 				}
 			}
-			for(int i = 0; i < input.Length; i++) {
+			for (int i = 0; i < input.Length; i++)
+			{
 				//Falls die Eingabe ein ungültiges Zeichen enhält setzte isOk auf false
-				if(!symbols.Contains(System.Convert.ToString(input[i]))) {
+				if (!symbols.Contains(System.Convert.ToString(input[i])))
+				{
 					isOk = false;
-				}		 
+				}
 			}
+			
 			//Setze error auf das Gegenteil von isOk. Denn wenn der String ok ist (isOk = true), enhält die Eingabe keinen Fehler
 			//(und damit error = false)
 			error = !isOk;

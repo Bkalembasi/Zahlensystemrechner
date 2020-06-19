@@ -47,15 +47,34 @@ namespace Zahlensystemrechner
                 String term = Convert.ToString(Console.ReadLine());
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
+                String output = "";
 
-                String[] dezArray = calc.GetCalcArray();
-                long solution = startCalc.GetSolution(dezArray);
-                
-                Number solNumber = new Number();
-                solNumber.SetDecNumber(solution);
-                Console.Write(solution);
-                //TODO Ausgabe
+                if(calc.GetError()) {
+                    output = createErrorString(calc);
+                }
+                else {
+                    String[] dezArray = calc.GetCalcArray();
+                    
+                    long solution = startCalc.GetSolution(dezArray);
+                    Number solNumber = new Number();
+                    solNumber.SetDecNumber(solution);
+                    output = System.Convert.ToString(solution);
+                }
+                //TODO Ausgabe 
+                //Ausgabe am besten durch die Variable output. Andernfalls Rückgabewert der createErrorString Methode bearbeiten etc
             }
+        }
+
+        private String createErrorString(CalcInput calc) {
+            String errorString = "";
+            int errorPosition = calc.GetErrorPosition();
+            String errorInput = calc.GetOriginArray()[errorPosition];
+            errorString += "Fehler bei der Eingabe: " + errorInput + "\n";
+            errorString += "Vollständiger Term: ";
+            foreach(string str in calc.GetOriginArray()) {
+                errorString += str + " ";
+            }
+            return errorString;
         }
 
         public static void Main()
