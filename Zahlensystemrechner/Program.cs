@@ -34,22 +34,39 @@ namespace Zahlensystemrechner
                     calc.WriteCalculator();
                     inf.InfoTextContent();
                 }
-
                 if (!(breite==Console.WindowWidth) || !(hoehe==Console.WindowHeight))
                 {
                     geaendert = true;
                 }
             }
         }
+        private void StartCalc()
+        {
+            while (true)
+            {
+                String term = Convert.ToString(Console.ReadLine());
+                CalcInput calc = new CalcInput(term);
+                BasicCalc startCalc = new BasicCalc();
+
+                String[] dezArray = calc.GetCalcArray();
+                long solution = startCalc.GetSolution(dezArray);
+                
+                Number solNumber = new Number();
+                solNumber.SetDecNumber(solution);
+                
+                //TODO Ausgabe
+            }
+        }
 
         public static void Main()
+
         {
             Programm calculator = new Programm();
 
             Thread ui = new Thread(new ThreadStart(calculator.WriteUI));
             ui.Start();
-
-            String term = Convert.ToString(Console.ReadLine());          
+            Thread calc = new Thread(new ThreadStart(calculator.StartCalc));
+            calc.Start();
         }
     }
 }
