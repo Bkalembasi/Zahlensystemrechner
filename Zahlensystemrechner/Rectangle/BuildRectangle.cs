@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 
@@ -11,7 +13,7 @@ namespace Zahlensystemrechner
 
         }
 
-        public void writeRectangle(int coordX, int coordY, int width, int height)
+        public void WriteRectangle(int coordX, int coordY, int width, int height)
         {
             string space = "";
 
@@ -48,52 +50,19 @@ namespace Zahlensystemrechner
             Console.Write("╝" + "\n");
         }
 
-        public void createWindowBorder()
+        public void CreateWindowBorder()
         {
             int width = Console.WindowWidth;
-            int x = 0, y = 0, y2 = 0;
+            int x = 0, y = 0;
             int x2 = width / 3;
             int height = Console.WindowHeight - 2;
 
             for (int i = 0; i < 3; i++)
             {
-                writeRectangle(x, y, x2 - 2, height);
+                WriteRectangle(x, y, x2 - 2, height);
                 x += x2;
             }
         }
-
-        public void writeInfoText()
-        {
-            int width = Console.WindowWidth;
-            int coordX = width/3*2+1, coordY = 1;
-            Console.SetCursorPosition(coordX, coordY);
-            Console.WriteLine("Zahlensystem-Rechner");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Infos:");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Der Rechner beherrscht die Grundrechenarten + - / *");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Der Rechner beachtet Klammern und Punkt-vor-Strich");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Das Ergebnis wird mit Betätigen der Return- oder =-Taste berechnet und ausgegeben");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Zahlen der verschiedenen Zahlensysteme müssen mit dem zugehörigen Präfix gekennzeichnet werden:");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Oktar: O_");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Binär: B_");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Hexadezimal: H_");
-            Console.SetCursorPosition(coordX, coordY++);
-            Console.WriteLine("Dezimal: ohne Präfix");
-        }
-
     }
 }
 

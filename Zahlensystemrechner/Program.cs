@@ -24,14 +24,15 @@ namespace Zahlensystemrechner
             { 
                 if (geaendert)
                 {
+                    Infobox inf = new Infobox(Console.WindowWidth / 3 - 3, Console.WindowWidth / 3 * 2 + 1, 1);
                     Console.Clear();
                     geaendert = false;
                     this.breite = Console.WindowWidth;
                     this.hoehe = Console.WindowHeight;
 
-                    rec.createWindowBorder();
-                    rec.writeInfoText();
+                    rec.CreateWindowBorder();
                     calc.WriteCalculator();
+                    inf.InfoTextContent();
                 }
                 if (!(breite==Console.WindowWidth) || !(hoehe==Console.WindowHeight))
                 {
@@ -39,7 +40,6 @@ namespace Zahlensystemrechner
                 }
             }
         }
-
         private void StartCalc()
         {
             while (true)
@@ -58,8 +58,8 @@ namespace Zahlensystemrechner
             }
         }
 
+        public static void Main()
 
-        public static void Main(string[] args)
         {
             Programm calculator = new Programm();
 
