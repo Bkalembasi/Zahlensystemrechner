@@ -45,12 +45,12 @@ namespace Zahlensystemrechner
            
             Console.Clear();
             geaendert = false;
-            this.breite = Console.WindowWidth;
-            this.hoehe = Console.WindowHeight;
+            this.width = Console.WindowWidth;
+            this.height = Console.WindowHeight;
 
             //WindowBorder + Rechner erzeugen
-            rec.CreateWindowBorder();
-            calc.WriteCalculator();
+            rec.CreateWindowBorder(width,height);
+            calc.WriteCalculator(width,height);
             Console.SetCursorPosition(0, 0);
 
             //Felder und Koordinaten neu Initialisieren
