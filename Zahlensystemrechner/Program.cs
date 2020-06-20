@@ -94,6 +94,7 @@ namespace Zahlensystemrechner
 
         private void AnsFunction(ref String term)
         {
+            term = term.ToUpper();
             if (term.Contains("ANS"))
             {
                 LinkedList<string> lastEntry = solField.SaveInput;
