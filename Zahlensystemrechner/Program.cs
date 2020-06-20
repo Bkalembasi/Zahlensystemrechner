@@ -16,36 +16,52 @@ namespace Zahlensystemrechner
         int height = Console.WindowHeight;
         bool geaendert = true;
 
+        Infobox inf = new RightInfoBox();
+        InputField inputField = new InputField();
+        LeftInfoBox solField = new LeftInfoBox();
+
         private void WriteUI()
         {
-            BuildRectangle rec = new BuildRectangle();
-            Calculator calc = new Calculator();
-
             while (true)
             {
                 CheckAndResetWindowSize();
                 if (geaendert)
                 {
-                    Thread.Sleep(300);
-                    Infobox inf = new Infobox(Console.WindowWidth / 3 - 3, Console.WindowWidth / 3 * 2 + 1, 1);
-                    Console.Title = "Zahlensystemrechner by BurnUp GmbH ©";
-                    Console.Clear();
-                    geaendert = false;
-                    this.width = Console.WindowWidth;
-                    this.height = Console.WindowHeight;
-
-                    rec.CreateWindowBorder(width,height);
-                    calc.WriteCalculator(width,height);
-                    inf.InfoTextContent();
+                    ResizeWindow();
                 }
                 if (!(width == Console.WindowWidth) || !(height == Console.WindowHeight))
                 {
-
                     geaendert = true;
                 }
             }
         }
 
+
+        private void ResizeWindow()
+        {
+            BuildRectangle rec = new BuildRectangle();
+            Calculator calc = new Calculator();
+            Console.Title = "Zahlensystemrechner by BurnUp GmbH ©";
+           
+            Console.Clear();
+            geaendert = false;
+            this.breite = Console.WindowWidth;
+            this.hoehe = Console.WindowHeight;
+
+            //WindowBorder + Rechner erzeugen
+            rec.CreateWindowBorder();
+            calc.WriteCalculator();
+            Console.SetCursorPosition(0, 0);
+
+            //Felder und Koordinaten neu Initialisieren
+            inf.Init();
+            inputField.Init();
+            solField.Init();
+
+            solField.PrintSavedInput();
+            inputField.PrintSavedInput();
+        }
+      
         private void CheckAndResetWindowSize()
         {
             if (Console.WindowHeight < 30 || Console.WindowWidth < 120)
@@ -58,7 +74,7 @@ namespace Zahlensystemrechner
         {
             while (true)
             {
-                String term = Convert.ToString(Console.ReadLine());
+                String term = inputField.ReadInput();
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
 
@@ -67,8 +83,8 @@ namespace Zahlensystemrechner
 
                 Number solNumber = new Number();
                 solNumber.SetDecNumber(solution);
-
-                //TODO Ausgabe
+                solField.WriteInfoText(System.Convert.ToString(solution));
+                solField.SaveAndClearInput(Convert.ToString(solution));
             }
         }
 
