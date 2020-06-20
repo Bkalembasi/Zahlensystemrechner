@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Collections.Generic;
 
 namespace Zahlensystemrechner
 {
@@ -16,9 +17,9 @@ namespace Zahlensystemrechner
         int height = Console.WindowHeight;
         bool windowChanged = true;
 
-        Infobox inf = new RightInfoBox();
-        InputField inputField = new InputField();
-        LeftInfoBox solField = new LeftInfoBox();
+        protected Infobox inf = new RightInfoBox();
+        protected InputField inputField = new InputField();
+        protected LeftInfoBox solField = new LeftInfoBox();
 
         private void WriteUI()
         {
@@ -75,6 +76,9 @@ namespace Zahlensystemrechner
             while (true)
             {
                 String term = inputField.ReadInput();
+
+                AnsFunction(ref term);
+
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
 
@@ -83,8 +87,27 @@ namespace Zahlensystemrechner
 
                 Number solNumber = new Number();
                 solNumber.SetDecNumber(solution);
-                solField.WriteInfoText(System.Convert.ToString(solution));
+                solField.WriteInfoText(Convert.ToString(solution));
                 solField.SaveAndClearInput(Convert.ToString(solution));
+            }
+        }
+
+        private void AnsFunction(ref String term)
+        {
+            if (term.Contains("ANS"))
+            {
+                LinkedList<string> lastEntry = solField.SaveInput;
+                
+                if (lastEntry.Count > 0)
+                {
+                    var entry = lastEntry.Last;
+
+                    term = term.Replace("ANS", entry.Value);
+                } else
+                {
+                    
+                    //Schrei rum weil Fehler
+                }
             }
         }
 

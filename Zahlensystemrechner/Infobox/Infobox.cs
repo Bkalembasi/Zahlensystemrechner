@@ -14,6 +14,8 @@ namespace Zahlensystemrechner
         protected int height;
         protected LinkedList<string> saveInput = new LinkedList<string>();
 
+        public LinkedList<string> SaveInput { get => saveInput; set => saveInput = value; }
+
         public Infobox()
         {
         }
