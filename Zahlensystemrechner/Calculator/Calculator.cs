@@ -7,52 +7,61 @@ namespace Zahlensystemrechner
 {
     class Calculator
     {
+        protected int width;
+        protected int height;
+        protected BuildRectangle outputWindow = new BuildRectangle();
+        protected BuildRectangle buttons = new BuildRectangle();
+
+
         public Calculator()
         {
-
-        }
-        public void WriteCalculator()
-        {
-            WriteInputField();
-            WriteNumberFields();
+            this.Width = 120;
+            this.Height = 30;
         }
 
-        private void WriteInputField()
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
+
+        public void WriteCalculator(int width,int height)
         {
-            int coordX = Console.WindowWidth / 3 + 1;
+            WriteInputField(width, height);
+            WriteNumberFields(width,height);
+        }
+
+        private void WriteInputField(int width,int height)
+        {
+            int coordX = width / 3 + 1;
             int coordY = 1;
-            int height = Convert.ToInt32(Console.WindowHeight * 0.1);
-            int width = Convert.ToInt32(Console.WindowWidth / 3 - 4);
-
-            BuildRectangle rec = new BuildRectangle();
-            rec.WriteRectangle(coordX, coordY, width, height);
+            this.height = Convert.ToInt32(height * 0.1);
+            this.width = Convert.ToInt32(width / 3 - 4);
+            this.outputWindow.WriteRectangle(coordX, coordY, this.width, this.height);
         }
 
-        private void WriteNumberFields()
+        private void WriteNumberFields(int width,int height)
         {
-            int coordX = Console.WindowWidth / 3 + 2;
-            int coordY = Convert.ToInt32(Console.WindowHeight * 0.1 + 3);
-            int width = Convert.ToInt32(((Console.WindowWidth - 10) / 3) * 0.2);
-            int height = Convert.ToInt32((width * 0.25));
-            int numbercounter = 0;
+            int coordX = width / 3 + 2;
+            int coordY = Convert.ToInt32(height * 0.1 + 3);
+            this.width = Convert.ToInt32(((width-10) / 3)* 0.2);
+            this.height = Convert.ToInt32((this.width * 0.25));
             List<string> numbers = new List<string>() {"Ans","(",")",":","7","8","9","x","4","5","6","-","1","2","3","+","0",".","+/-","="};
-       
+            int numbercounter = 0;
+            int tempCoordX = 0;
+
             for (int i = 0; i < 5; i++)
             {
-                int tempCoordX = coordX;
+                tempCoordX = coordX;
                 for (int j = 0; j < 4; j++)
                 {
-                    
-                    BuildRectangle rec = new BuildRectangle();
-                    rec.WriteRectangle(tempCoordX, coordY, width, height);
+                    buttons.WriteRectangle(tempCoordX, coordY, this.width, this.height);
                     Console.SetCursorPosition(++tempCoordX, ++coordY);
                     Console.Write(numbers[numbercounter]);
-                    tempCoordX += width + 2;
+                                   
+                    tempCoordX += this.width + 2;
                     numbercounter++;
                     --tempCoordX;
                     --coordY;
                 }
-                coordY += height + 2;
+                coordY += this.height + 2;
             }
         }
     }
