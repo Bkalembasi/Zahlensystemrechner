@@ -15,24 +15,19 @@ namespace Zahlensystemrechner
         int hoehe = Console.WindowHeight;
         bool geaendert = true;
 
+        Infobox inf = new RightInfoBox();
+        InputField inputField = new InputField();
+        LeftInfoBox solField = new LeftInfoBox();
+
         private void WriteUI()
         {
-            BuildRectangle rec = new BuildRectangle();
-            Calculator calc = new Calculator();
+            
 
             while (true)
             { 
                 if (geaendert)
                 {
-                    Infobox inf = new RightInfoBox();
-                    Console.Clear();
-                    geaendert = false;
-                    this.breite = Console.WindowWidth;
-                    this.hoehe = Console.WindowHeight;
-
-                    rec.CreateWindowBorder();
-                    calc.WriteCalculator();
-                    inf.InfoTextContent();
+                    ResizeWindow();
                 }
                 if (!(breite==Console.WindowWidth) || !(hoehe==Console.WindowHeight))
                 {
@@ -40,19 +35,36 @@ namespace Zahlensystemrechner
                 }
             }
         }
+
+        private void ResizeWindow()
+        {
+            BuildRectangle rec = new BuildRectangle();
+            Calculator calc = new Calculator();
+
+            Console.Clear();
+            geaendert = false;
+            this.breite = Console.WindowWidth;
+            this.hoehe = Console.WindowHeight;
+
+            //WindowBorder + Rechner erzeugen
+            rec.CreateWindowBorder();
+            calc.WriteCalculator();
+            Console.SetCursorPosition(0, 0);
+
+            //Felder und Koordinaten neu Initialisieren
+            inf.Init();
+            inputField.Init();
+            solField.Init();
+
+            solField.PrintSavedInput();
+            inputField.PrintSavedInput();
+        }
+
         private void StartCalc()
         {
             while (true)
             {
-                //Warten bis das Fenster gezeichnet ist
-                Thread.Sleep(300);
-                //Inputfeld mitte mit Cursor setzten 
-                Infobox inputField = new InputField();
-                Infobox solField = new LeftInfoBox();
-
-                inputField.SetCursorPosition();
-
-                String term = Convert.ToString(Console.ReadLine());
+                String term = inputField.ReadInput();
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
 
@@ -62,6 +74,7 @@ namespace Zahlensystemrechner
                 Number solNumber = new Number();
                 solNumber.SetDecNumber(solution);
                 solField.WriteInfoText(System.Convert.ToString(solution));
+                solField.SaveAndClearInput(Convert.ToString(solution));
 
                 //TODO Ausgabe
             }

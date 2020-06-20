@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using Zahlensystemrechner;
 
 namespace Zahlensystemrechner
@@ -10,6 +11,8 @@ namespace Zahlensystemrechner
         protected int width;
         protected int coordX;
         protected int coordY;
+        protected int height;
+        protected LinkedList<string> saveInput = new LinkedList<string>();
 
         public Infobox()
         {
@@ -34,6 +37,28 @@ namespace Zahlensystemrechner
             WriteInfoText("Binär: B_");
             WriteInfoText("Hexadezimal: H_");
             WriteInfoText("Dezimal: ohne Präfix");
+        }
+
+        public void ClearBox()
+        {
+            SetCursorPosition();
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < width - 1; j++)
+                {
+                    Console.Write(" ");
+                }
+                this.coordY++;
+                SetCursorPosition();
+            }
+            Init();
+        }
+
+        public void PrintSavedInput()
+        {
+            SetCursorPosition();
+            String savedInput = String.Join("", saveInput.ToArray());
+            Console.Write(savedInput);
         }
 
         public void SetCursorPosition()

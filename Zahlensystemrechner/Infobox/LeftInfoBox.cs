@@ -8,7 +8,7 @@ namespace Zahlensystemrechner
     {
         public LeftInfoBox ()
         {
-            this.width = Console.WindowWidth / 3 - 3;
+            Init();
         }
 
         public override void Init()
@@ -16,6 +16,13 @@ namespace Zahlensystemrechner
             this.width = Console.WindowWidth / 3 - 3;
             this.coordX = 1;
             this.coordY = 1;
+        }
+
+        public void SaveAndClearInput(String input)
+        {
+            this.saveInput.Clear();
+            ClearBox();
+            this.saveInput.AddLast(input);
         }
     }
 }

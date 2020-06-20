@@ -16,6 +16,8 @@ namespace Zahlensystemrechner
             this.width = Console.WindowWidth / 3 - 3;
             this.coordX = Console.WindowWidth / 3 * 2 + 1;
             this.coordY = 1;
+
+            InfoTextContent();
         }
     }
 }
