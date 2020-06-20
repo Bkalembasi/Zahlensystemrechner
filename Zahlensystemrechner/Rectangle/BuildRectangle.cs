@@ -15,6 +15,10 @@ namespace Zahlensystemrechner
 
         public void WriteRectangle(int coordX, int coordY, int width, int height)
         {
+            if (coordX > Console.WindowWidth || coordY > Console.WindowHeight)
+            {
+                return;
+            }
             string space = "";
 
             Console.SetCursorPosition(coordX, coordY);
