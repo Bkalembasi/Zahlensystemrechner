@@ -14,7 +14,7 @@ namespace Zahlensystemrechner
     {
         int width = Console.WindowWidth;
         int height = Console.WindowHeight;
-        bool geaendert = true;
+        bool windowChanged = true;
 
         Infobox inf = new RightInfoBox();
         InputField inputField = new InputField();
@@ -25,13 +25,13 @@ namespace Zahlensystemrechner
             while (true)
             {
                 CheckAndResetWindowSize();
-                if (geaendert)
+                if (windowChanged)
                 {
                     ResizeWindow();
                 }
                 if (!(width == Console.WindowWidth) || !(height == Console.WindowHeight))
                 {
-                    geaendert = true;
+                    windowChanged = true;
                 }
             }
         }
@@ -44,7 +44,7 @@ namespace Zahlensystemrechner
             Console.Title = "Zahlensystemrechner by BurnUp GmbH ©";
            
             Console.Clear();
-            geaendert = false;
+            windowChanged = false;
             this.width = Console.WindowWidth;
             this.height = Console.WindowHeight;
 
