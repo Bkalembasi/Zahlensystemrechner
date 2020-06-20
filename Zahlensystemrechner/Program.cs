@@ -11,8 +11,8 @@ namespace Zahlensystemrechner
 {
     class Programm
     {
-        int breite = Console.WindowWidth;
-        int hoehe = Console.WindowHeight;
+        int width = Console.WindowWidth;
+        int height = Console.WindowHeight;
         bool geaendert = true;
 
         private void WriteUI()
@@ -27,14 +27,14 @@ namespace Zahlensystemrechner
                     Infobox inf = new Infobox(Console.WindowWidth / 3 - 3, Console.WindowWidth / 3 * 2 + 1, 1);
                     Console.Clear();
                     geaendert = false;
-                    this.breite = Console.WindowWidth;
-                    this.hoehe = Console.WindowHeight;
+                    this.width = Console.WindowWidth;
+                    this.height = Console.WindowHeight;
 
-                    rec.CreateWindowBorder();
-                    calc.WriteCalculator();
+                    rec.CreateWindowBorder(width,height);
+                    calc.WriteCalculator(width,height);
                     inf.InfoTextContent();
                 }
-                if (!(breite==Console.WindowWidth) || !(hoehe==Console.WindowHeight))
+                if (!(width == Console.WindowWidth) || !(height == Console.WindowHeight))
                 {
                     geaendert = true;
                 }
