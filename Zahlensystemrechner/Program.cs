@@ -12,8 +12,8 @@ namespace Zahlensystemrechner
 {
     class Programm
     {
-        int breite = Console.WindowWidth;
-        int hoehe = Console.WindowHeight;
+        int width = Console.WindowWidth;
+        int height = Console.WindowHeight;
         bool geaendert = true;
 
         private void WriteUI()
@@ -31,13 +31,14 @@ namespace Zahlensystemrechner
                     Console.Title = "Zahlensystemrechner by BurnUp GmbH ©";
                     Console.Clear();
                     geaendert = false;
-                    this.breite = Console.WindowWidth;
-                    this.hoehe = Console.WindowHeight;
-                    rec.CreateWindowBorder();
-                    calc.WriteCalculator();
+                    this.width = Console.WindowWidth;
+                    this.height = Console.WindowHeight;
+
+                    rec.CreateWindowBorder(width,height);
+                    calc.WriteCalculator(width,height);
                     inf.InfoTextContent();
                 }
-                if (!(breite == Console.WindowWidth) || !(hoehe == Console.WindowHeight))
+                if (!(width == Console.WindowWidth) || !(height == Console.WindowHeight))
                 {
 
                     geaendert = true;

@@ -8,9 +8,16 @@ namespace Zahlensystemrechner
 {
     public class BuildRectangle
     {
+        int width;
+        int height;
+
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
+
         public BuildRectangle()
         {
-
+            this.width = 120;
+            this.height = 30;
         }
 
         public void WriteRectangle(int coordX, int coordY, int width, int height)
@@ -54,16 +61,16 @@ namespace Zahlensystemrechner
             Console.Write("╝" + "\n");
         }
 
-        public void CreateWindowBorder()
+        public void CreateWindowBorder(int width, int height)
         {
-            int width = Console.WindowWidth;
+            this.width = width;
             int x = 0, y = 0;
-            int x2 = width / 3;
-            int height = Console.WindowHeight - 2;
+            int x2 = this.width / 3;
+            this.height = height - 2;
 
             for (int i = 0; i < 3; i++)
             {
-                WriteRectangle(x, y, x2 - 2, height);
+                WriteRectangle(x, y, x2 - 2, this.height);
                 x += x2;
             }
         }
