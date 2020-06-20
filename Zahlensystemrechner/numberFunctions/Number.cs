@@ -44,11 +44,6 @@ namespace Zahlensystemrechner {
 		{
 			error = false;
 		}
-
-		public void HelloWorld()
-        {
-
-        }
 		//Constructor, der für Eingaben verwendet wird.
 		//Der Prefix der Eingabe wird abgespalten, der ensprechende Zahlenwert wird gesetzt
 		//und die Zahl wrird in die anderen Systeme umgerechnet
