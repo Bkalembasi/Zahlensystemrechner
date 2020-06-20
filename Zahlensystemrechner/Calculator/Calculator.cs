@@ -32,9 +32,11 @@ namespace Zahlensystemrechner
         {
             int coordX = Console.WindowWidth / 3 + 2;
             int coordY = Convert.ToInt32(Console.WindowHeight * 0.1 + 3);
-            int width = Convert.ToInt32(((Console.WindowWidth-10) / 3)* 0.2);
+            int width = Convert.ToInt32(((Console.WindowWidth - 10) / 3) * 0.2);
             int height = Convert.ToInt32((width * 0.25));
-
+            int numbercounter = 0;
+            List<string> numbers = new List<string>() {"Ans","(",")",":","7","8","9","x","4","5","6","-","1","2","3","+","0",".","+/-","="};
+       
             for (int i = 0; i < 5; i++)
             {
                 int tempCoordX = coordX;
@@ -43,7 +45,12 @@ namespace Zahlensystemrechner
                     
                     BuildRectangle rec = new BuildRectangle();
                     rec.WriteRectangle(tempCoordX, coordY, width, height);
+                    Console.SetCursorPosition(++tempCoordX, ++coordY);
+                    Console.Write(numbers[numbercounter]);
                     tempCoordX += width + 2;
+                    numbercounter++;
+                    --tempCoordX;
+                    --coordY;
                 }
                 coordY += height + 2;
             }
