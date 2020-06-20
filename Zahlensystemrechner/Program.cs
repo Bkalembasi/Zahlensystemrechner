@@ -6,13 +6,14 @@ using System.Security.Cryptography.X509Certificates;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 
 namespace Zahlensystemrechner
 {
     class Programm
     {
-        int breite = Console.WindowWidth;
-        int hoehe = Console.WindowHeight;
+        int width = Console.WindowWidth;
+        int height = Console.WindowHeight;
         bool geaendert = true;
 
         Infobox inf = new RightInfoBox();
@@ -21,26 +22,27 @@ namespace Zahlensystemrechner
 
         private void WriteUI()
         {
-            
-
             while (true)
-            { 
+            {
+                CheckAndResetWindowSize();
                 if (geaendert)
                 {
                     ResizeWindow();
                 }
-                if (!(breite==Console.WindowWidth) || !(hoehe==Console.WindowHeight))
+                if (!(width == Console.WindowWidth) || !(height == Console.WindowHeight))
                 {
                     geaendert = true;
                 }
             }
         }
 
+
         private void ResizeWindow()
         {
             BuildRectangle rec = new BuildRectangle();
             Calculator calc = new Calculator();
-
+            Console.Title = "Zahlensystemrechner by BurnUp GmbH ©";
+           
             Console.Clear();
             geaendert = false;
             this.breite = Console.WindowWidth;
@@ -59,6 +61,14 @@ namespace Zahlensystemrechner
             solField.PrintSavedInput();
             inputField.PrintSavedInput();
         }
+      
+        private void CheckAndResetWindowSize()
+        {
+            if (Console.WindowHeight < 30 || Console.WindowWidth < 120)
+            {
+                Console.SetWindowSize(120, 30);
+            }
+        }
 
         private void StartCalc()
         {
@@ -70,13 +80,11 @@ namespace Zahlensystemrechner
 
                 String[] dezArray = calc.GetCalcArray();
                 long solution = startCalc.GetSolution(dezArray);
-                
+
                 Number solNumber = new Number();
                 solNumber.SetDecNumber(solution);
                 solField.WriteInfoText(System.Convert.ToString(solution));
                 solField.SaveAndClearInput(Convert.ToString(solution));
-
-                //TODO Ausgabe
             }
         }
 
@@ -84,7 +92,6 @@ namespace Zahlensystemrechner
 
         {
             Programm calculator = new Programm();
-
             Thread ui = new Thread(new ThreadStart(calculator.WriteUI));
             ui.Start();
             Thread calc = new Thread(new ThreadStart(calculator.StartCalc));
