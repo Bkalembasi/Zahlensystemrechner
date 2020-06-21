@@ -24,15 +24,15 @@ namespace Zahlensystemrechner
 
         public void InfoTextContent()
         {
-            WriteInfoText("Zahlensystem-Rechner", false);
-            WriteInfoText("Infos:", false);
-            WriteInfoText("Im linken Drittel werden die Ergebnisse angezeigt", false);
-            WriteInfoText("Im mittleren Drittel können Terme zum Berechnen eingegeben werden", false);
-            WriteInfoText("Der Rechner beherrscht die Grundrechenarten + - / * ", false);
+            WriteInfoText("Der Rechner beherrscht die Grundrechenarten + - / * ^", false);
             WriteInfoText("", false);
             WriteInfoText("Der Rechner beachtet Klammern und Punkt-vor-Strich", false);
             WriteInfoText("", false);
-            WriteInfoText("Das Ergebnis wird mit Betätigen der Return- oder =-Taste berechnet und ausgegeben", false);
+            WriteInfoText("Das Ergebnis wird mit Betätigen der Return- oder '='-Taste berechnet und ausgegeben", false);
+            WriteInfoText("", false);
+            WriteInfoText("Das Ergebnis wird standardmäßig in Dezimal angegeben. Durch Betätigen  der 'A'-Taste wird das Ergebnis in allen Zahlensystemen angegeben", false);
+            WriteInfoText("", false);
+            WriteInfoText("Ergebnisse werden ausschließlich in ganzen Zahlen angegeben", false);
             WriteInfoText("", false);
             WriteInfoText("Zahlen der verschiedenen Zahlensysteme müssen mit dem zugehörigen Präfix gekennzeichnet werden:", false);
             WriteInfoText("Oktal: O_", false);

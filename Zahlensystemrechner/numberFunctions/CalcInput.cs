@@ -64,9 +64,9 @@ namespace Zahlensystemrechner
             //Dient zu Splitten des Strings bei den Zeichen -, +. *, /, ), ( oder ^
             Regex regex = new Regex("(?<=[-+*/)(^])|(?=[-+*/)(^])");
             //Dient zum löschen aller Zeichen, die nicht 0,1,2,3,4,5,6,7,8,9,-,+,*,/,),(,^,A,B,C,D,E,F,G,H,O oder _ sind
-            Regex filter = new Regex("[^0-9-+*/^ABCDEFHO_)(.]");
+            //Regex filter = new Regex("[^0-9-+*/^ABCDEFHO_)(.]");
             //Lösche die Zeichen, die nicht im Filter vorhanden sind
-            input = filter.Replace(input, "");
+            //input = filter.Replace(input, "");
             //Splitte den String bei den im Regex gespeicherten Zeichen
             String[] result = regex.Split(input);
 
