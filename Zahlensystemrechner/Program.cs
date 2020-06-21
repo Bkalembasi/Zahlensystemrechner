@@ -80,7 +80,7 @@ namespace Zahlensystemrechner
                 term = term.ToUpper();
 
                 //Wenn nicht das Kürzel zum ändern der Ausgabemenge eingegeben wurde, berechne den Term
-                if(changeSolutionNumber(term))
+                if(ChangeSolutionNumber(term))
                 {
                     //Falls kein ANS eingegeben wurde oder ANS eingegeben wurde, nachdem ein Ergebnis gespeichert wurde.
                     if(AnsFunction(ref term))
@@ -92,7 +92,7 @@ namespace Zahlensystemrechner
                         String output = "";
                         if (calc.GetError())
                         {
-                            output = createErrorString(calc);
+                            output = CreateErrorString(calc);
                         }
                         else
                         {
@@ -107,7 +107,7 @@ namespace Zahlensystemrechner
                         if (this.allSolutions)
                         {
                             solNumber.ToOtherSystems();
-                            writeAllSolutions(solNumber);
+                            WriteAllSolutions(solNumber);
                         }
                     }
 
@@ -137,7 +137,7 @@ namespace Zahlensystemrechner
             }
         }
       
-        private String createErrorString(CalcInput calc) {
+        private String CreateErrorString(CalcInput calc) {
             String errorString = "";
             int errorPosition = calc.GetErrorPosition();
             String errorInput = calc.GetOriginArray()[errorPosition];
@@ -149,7 +149,7 @@ namespace Zahlensystemrechner
             return errorString;
         }
   
-        private bool changeSolutionNumber (String term)
+        private bool ChangeSolutionNumber (String term)
         {
             if(term == "A")
             {
@@ -159,7 +159,7 @@ namespace Zahlensystemrechner
             return true;
         }
 
-        private void writeAllSolutions(Number solNumber)
+        private void WriteAllSolutions(Number solNumber)
         {
             solField.WriteInfoText("Binär: " + solNumber.GetBinaryNumber());
             solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber());

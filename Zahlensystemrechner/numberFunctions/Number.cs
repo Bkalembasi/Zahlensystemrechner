@@ -180,7 +180,7 @@ namespace Zahlensystemrechner {
 				symbols.Add(System.Convert.ToString(i));
 				if (i > 9)
 				{
-					char hexNum = System.Convert.ToChar(hexConvert(i, true));
+					char hexNum = System.Convert.ToChar(HexConvert(i, true));
 					symbols.Add(System.Convert.ToString(hexNum));
 				}
 			}
@@ -247,12 +247,12 @@ namespace Zahlensystemrechner {
 
 				if ( numCode > 9)
 				{	
-					char decNum = System.Convert.ToChar(hexConvert(numCode, false));
+					char decNum = System.Convert.ToChar(HexConvert(numCode, false));
 					indexNumber = decNum ;
 				}
 				else
 				{
-					indexNumber = asciiToValue(number[i]);
+					indexNumber = AsciiToValue(number[i]);
 				}
 				int exponent = number.Length - (i + 1);
 				decNumber = decNumber + System.Convert.ToInt64(indexNumber * Math.Pow(system, exponent));
@@ -290,7 +290,7 @@ namespace Zahlensystemrechner {
 
 					if (num > 9)
                     {	
-						char hexChar = System.Convert.ToChar(hexConvert(num, true));
+						char hexChar = System.Convert.ToChar(HexConvert(num, true));
 						number = hexChar + number;
                     }
                     else
@@ -306,7 +306,7 @@ namespace Zahlensystemrechner {
 
 		//Wandelt einen Dezimalwert in einen Hexadezimalwert, bzw einen Hexadezimalwert in einen Dezimalwert um. 
 		//(Verändert den ASCII-Code)
-		private int hexConvert(int number, Boolean isDez) 
+		private int HexConvert(int number, Boolean isDez) 
 		{
 			int evaluater = -55;
 			if(isDez) {
@@ -317,12 +317,12 @@ namespace Zahlensystemrechner {
 		}
 
 		//Wandelt den Ascii-Wert einer Zahl in ihre tatsächliche Value um.
-		private int asciiToValue(char numberChar)
+		private int AsciiToValue(char numberChar)
         {
 			int number = numberChar - '0';
 			return number;
         }
-		public String getAllSystems()
+		public String GetAllSystems()
         {
 			String allSystemSolution = "";
 
