@@ -16,6 +16,7 @@ namespace Zahlensystemrechner
         int width = Console.WindowWidth;
         int height = Console.WindowHeight;
         bool windowChanged = true;
+        bool allSolutions = false;
 
         protected Infobox inf = new RightInfoBox();
         protected InputField inputField = new InputField();
@@ -77,27 +78,41 @@ namespace Zahlensystemrechner
             {
                 String term = inputField.ReadInput();
                 term = term.ToUpper();
-                AnsFunction(ref term);
 
-                CalcInput calc = new CalcInput(term);
-                BasicCalc startCalc = new BasicCalc();
-              
-                String output = "";
-                if(calc.GetError()) {
-                    output = createErrorString(calc);
-                }
-                else {
-                    String[] dezArray = calc.GetCalcArray();
-                    long solution = startCalc.GetSolution(dezArray);
+                if(changeSolutionNumber(term))
+                {
+                    AnsFunction(ref term);
 
+                    CalcInput calc = new CalcInput(term);
+                    BasicCalc startCalc = new BasicCalc();
                     Number solNumber = new Number();
-                    solNumber.SetDecNumber(solution);
-                    output = System.Convert.ToString(solution);
+
+                    String output = "";
+                    if (calc.GetError())
+                    {
+                        output = createErrorString(calc);
+                    }
+                    else
+                    {
+                        String[] dezArray = calc.GetCalcArray();
+                        long solution = startCalc.GetSolution(dezArray);
+
+                        solNumber.SetDecNumber(solution);
+                        output = System.Convert.ToString(solution);
+                    }
+                    solField.SaveAndClearInput(output, calc.GetError());
+                    solField.WriteInfoText(output);
+                    if(this.allSolutions)
+                    {
+                        solNumber.ToOtherSystems();
+                        writeAllSolutions(solNumber);
+                    }
                 }
-                solField.SaveAndClearInput(output, calc.GetError());
-                solField.WriteInfoText(output);     
-                //TODO Ausgabe 
-                //Ausgabe am besten durch die Variable output. Andernfalls Rückgabewert der createErrorString Methode bearbeiten etc
+                else
+                {
+                    solField.SaveAndClearInput("", false);
+                    solField.WriteInfoText("Ausgabezahlensystem geändert");
+                }    
             }
         }
       
@@ -113,6 +128,22 @@ namespace Zahlensystemrechner
             return errorString;
         }
   
+        private bool changeSolutionNumber (String term)
+        {
+            if(term == "A")
+            {
+                this.allSolutions = !this.allSolutions;
+                return false;
+            }
+            return true;
+        }
+
+        private void writeAllSolutions(Number solNumber)
+        {
+            solField.WriteInfoText("Binär: " + solNumber.GetBinaryNumber());
+            solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber());
+            solField.WriteInfoText("Hexadezimal : " + solNumber.GetHexDecNumber());
+        }
         private void AnsFunction(ref String term)
         {
             if (term.Contains("ANS"))
