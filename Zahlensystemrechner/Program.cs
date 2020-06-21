@@ -78,6 +78,7 @@ namespace Zahlensystemrechner
             {
                 String term = inputField.ReadInput();
                 term = term.ToUpper();
+                String originInput = term;
 
                 //Wenn nicht das Kürzel zum ändern der Ausgabemenge eingegeben wurde, berechne den Term
                 if(ChangeSolutionNumber(term))
@@ -103,6 +104,7 @@ namespace Zahlensystemrechner
                             output = Convert.ToString(solution);
                         }
                         solField.SaveAndClearInput(output, calc.GetError());
+                        solField.WriteInfoText("Eingabe: " + originInput, false);
                         solField.WriteInfoText(String.Join("", calc.GetCalcArray()) + "=", false);
                         solField.WriteInfoText(output, false);
 
