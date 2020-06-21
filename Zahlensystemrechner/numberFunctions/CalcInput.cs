@@ -109,6 +109,7 @@ namespace Zahlensystemrechner
                         {
                             this.error = true;
                             this.errorPosition = i;
+                            break;
                         }
                     }
                     else
@@ -122,6 +123,7 @@ namespace Zahlensystemrechner
                             {
                                 this.error = true;
                                 this.errorPosition = i;
+                                break;
                             }
                         }
                         else
