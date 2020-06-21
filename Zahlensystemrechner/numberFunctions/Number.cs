@@ -242,7 +242,7 @@ namespace Zahlensystemrechner {
 			{
 				//-'0' da ein char bei einer Konvertierung nach int immer in seinen Ascii-Wert umgewandelt wird.
 				char numberChar = number[i];
-				int indexNumber = 0;
+				int indexNumber;
 				int numCode = (numberChar);
 
 				if ( numCode > 9)
