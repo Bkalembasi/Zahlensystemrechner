@@ -244,8 +244,8 @@ namespace Zahlensystemrechner {
 				char numberChar = number[i];
 				int indexNumber;
 				int numCode = (numberChar);
-
-				if ( numCode > 9)
+				
+				if ( numCode - 55 > 9)
 				{	
 					char decNum = System.Convert.ToChar(HexConvert(numCode, false));
 					indexNumber = decNum ;
