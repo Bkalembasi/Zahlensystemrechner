@@ -79,39 +79,60 @@ namespace Zahlensystemrechner
                 String term = inputField.ReadInput();
                 term = term.ToUpper();
 
+                //Wenn nicht das Kürzel zum ändern der Ausgabemenge eingegeben wurde, berechne den Term
                 if(changeSolutionNumber(term))
                 {
-                    AnsFunction(ref term);
-
-                    CalcInput calc = new CalcInput(term);
-                    BasicCalc startCalc = new BasicCalc();
-                    Number solNumber = new Number();
-
-                    String output = "";
-                    if (calc.GetError())
+                    //Falls kein ANS eingegeben wurde oder ANS eingegeben wurde, nachdem ein Ergebnis gespeichert wurde.
+                    if(AnsFunction(ref term))
                     {
-                        output = createErrorString(calc);
+                        CalcInput calc = new CalcInput(term);
+                        BasicCalc startCalc = new BasicCalc();
+                        Number solNumber = new Number();
+
+                        String output = "";
+                        if (calc.GetError())
+                        {
+                            output = createErrorString(calc);
+                        }
+                        else
+                        {
+                            String[] dezArray = calc.GetCalcArray();
+                            long solution = startCalc.GetSolution(dezArray);
+
+                            solNumber.SetDecNumber(solution);
+                            output = System.Convert.ToString(solution);
+                        }
+                        solField.SaveAndClearInput(output, calc.GetError());
+                        solField.WriteInfoText(output);
+                        if (this.allSolutions)
+                        {
+                            solNumber.ToOtherSystems();
+                            writeAllSolutions(solNumber);
+                        }
                     }
+
+                    //Falls ANS eingegeben wurde, obwohl noch keine erfolgreiche Berechnung durchgeführt wurde.
                     else
                     {
-                        String[] dezArray = calc.GetCalcArray();
-                        long solution = startCalc.GetSolution(dezArray);
-
-                        solNumber.SetDecNumber(solution);
-                        output = System.Convert.ToString(solution);
-                    }
-                    solField.SaveAndClearInput(output, calc.GetError());
-                    solField.WriteInfoText(output);
-                    if(this.allSolutions)
-                    {
-                        solNumber.ToOtherSystems();
-                        writeAllSolutions(solNumber);
+                        solField.SaveAndClearInput("", false);
+                        solField.WriteInfoText("ANS nicht möglich, da kein Ergebnis gespeichert wurde.");
                     }
                 }
+
+                //Wenn das Kürzel zum Ändern des Ausgabesystems eingegeben wurde   
                 else
                 {
                     solField.SaveAndClearInput("", false);
-                    solField.WriteInfoText("Ausgabezahlensystem geändert");
+                    String output = "";
+                    if(this.allSolutions)
+                    {
+                        output = "Ausgabe zu allen Zahlensystemen geändert.";
+                    }
+                    else
+                    {
+                        output = "Ausgabe zu nur dezimal geändert.";
+                    }
+                    solField.WriteInfoText(output);
                 }    
             }
         }
@@ -144,7 +165,7 @@ namespace Zahlensystemrechner
             solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber());
             solField.WriteInfoText("Hexadezimal : " + solNumber.GetHexDecNumber());
         }
-        private void AnsFunction(ref String term)
+        private bool AnsFunction(ref String term)
         {
             if (term.Contains("ANS"))
             {
@@ -154,11 +175,13 @@ namespace Zahlensystemrechner
                 {
                     var entry = lastEntry.Last;
                     term = term.Replace("ANS", entry.Value);
+                    return true;
                 } else
                 {
-                    //Schrei rum weil Fehler
+                    return false;
                 }
             }
+            return true;
         }
 
         public static void Main()
