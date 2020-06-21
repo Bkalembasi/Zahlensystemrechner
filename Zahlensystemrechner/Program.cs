@@ -76,19 +76,11 @@ namespace Zahlensystemrechner
             while (true)
             {
                 String term = inputField.ReadInput();
-
+                term = term.ToUpper();
                 AnsFunction(ref term);
 
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
-              
-                String[] dezArray = calc.GetCalcArray();
-                long solution = startCalc.GetSolution(dezArray);
-
-                Number solNumber = new Number();
-                solNumber.SetDecNumber(solution);
-                solField.WriteInfoText(Convert.ToString(solution));
-                solField.SaveAndClearInput(Convert.ToString(solution));
               
                 String output = "";
                 if(calc.GetError()) {
@@ -96,12 +88,14 @@ namespace Zahlensystemrechner
                 }
                 else {
                     String[] dezArray = calc.GetCalcArray();
-                    
                     long solution = startCalc.GetSolution(dezArray);
+
                     Number solNumber = new Number();
                     solNumber.SetDecNumber(solution);
                     output = System.Convert.ToString(solution);
                 }
+                solField.SaveAndClearInput(output, calc.GetError());
+                solField.WriteInfoText(output);     
                 //TODO Ausgabe 
                 //Ausgabe am besten durch die Variable output. Andernfalls Rückgabewert der createErrorString Methode bearbeiten etc
             }
@@ -111,7 +105,7 @@ namespace Zahlensystemrechner
             String errorString = "";
             int errorPosition = calc.GetErrorPosition();
             String errorInput = calc.GetOriginArray()[errorPosition];
-            errorString += "Fehler bei der Eingabe: " + errorInput + "\n";
+            errorString += "Fehler bei der Eingabe: " + errorInput + " ";
             errorString += "Vollständiger Term: ";
             foreach(string str in calc.GetOriginArray()) {
               errorString += str + " ";
@@ -134,7 +128,6 @@ namespace Zahlensystemrechner
                     //Schrei rum weil Fehler
                 }
             }
-            return errorString;
         }
 
         public static void Main()

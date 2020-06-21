@@ -18,11 +18,14 @@ namespace Zahlensystemrechner
             this.coordY = 1;
         }
 
-        public void SaveAndClearInput(String input)
+        public void SaveAndClearInput(String input, bool error)
         {
-            this.saveInput.Clear();
+            if (!error)
+            {
+                this.saveInput.Clear();
+                this.saveInput.AddLast(input);
+            }
             ClearBox();
-            this.saveInput.AddLast(input);
         }
     }
 }

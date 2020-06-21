@@ -27,7 +27,7 @@ namespace Zahlensystemrechner
             calcArray = SplitInput(input.ToUpper().Replace(":", "/"));
             originArray = calcArray;
             ReplaceCalcArray();
-            if(input == "")
+            if(calcArray[0] == "")
             {
                 this.error = true;
             }
