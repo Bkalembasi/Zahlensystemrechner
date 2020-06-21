@@ -77,6 +77,9 @@ namespace Zahlensystemrechner
         //Speichere die Zahlenobjekte in der numberList
         private void ReplaceCalcArray()
         {
+            int operatorCounter = 0;
+            int numberCounter = 0;
+            int clampCounter = 0;
             for (int i = 0; i < calcArray.Length; i++)
             {
                 //Generiere für jeden String ein Zahlenobjekt
@@ -94,12 +97,52 @@ namespace Zahlensystemrechner
                     //Falls das erstellte Zahlenobejekt kein Operator ist, speichere es in der numberList
                     //und tausche im Array die Zahl durch ihr Äquivalent im Dezimalsystem aus
                     if(!number.GetIsOperator())
-                    { 
-                        numberList.Add(number);
-                        calcArray[i] = number.GetDecNumber();
+                    {
+                        numberCounter++;
+                        operatorCounter = 0;
+                        if (numberCounter < 2)
+                        {
+                            numberList.Add(number);
+                            calcArray[i] = number.GetDecNumber();
+                        }
+                        else
+                        {
+                            this.error = true;
+                            this.errorPosition = i;
+                        }
+                    }
+                    else
+                    {
+                        if( calcArray[i] != "(" && calcArray[i] != ")")
+                        {
+                            numberCounter = 0;
+                            operatorCounter++;
+
+                            if(operatorCounter < 2 )
+                            {
+                                this.error = true;
+                                this.errorPosition = i;
+                            }
+                        }
+                        else
+                        {
+                            if( calcArray[i] == "(" )
+                            {
+                                clampCounter++;
+                            }
+                            else
+                            {
+                                clampCounter--;
+                            }
+                        }
                     }
                 }
 
+            }
+            if(clampCounter != 0)
+            {
+                this.error = true;
+                this.errorPosition = calcArray.Length - 1;
             }
         }
     }
