@@ -103,6 +103,7 @@ namespace Zahlensystemrechner
                             output = Convert.ToString(solution);
                         }
                         solField.SaveAndClearInput(output, calc.GetError());
+                        solField.WriteInfoText(String.Join("", calc.GetCalcArray()) + "=", false);
                         solField.WriteInfoText(output, false);
 
                         if (this.allSolutions)

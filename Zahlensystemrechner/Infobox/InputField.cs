@@ -29,7 +29,7 @@ namespace Zahlensystemrechner
             {
                 String input = Console.ReadKey(true).KeyChar.ToString();
 
-                if (input.Equals("\r") || input.Equals("="))
+                if (input.Equals("\r") || input.Equals("=") || input.Equals(" "))
                 {
                     break;
                 }
@@ -48,8 +48,15 @@ namespace Zahlensystemrechner
                 {
                     if (saveInput.Count < width - 1)
                     {
-                        saveInput.AddLast(input);
-                        Console.Write(input);
+                        if(input.Equals("\0"))
+                        {
+                            saveInput.AddLast("^");
+                            Console.Write("^");
+                        } else
+                        {
+                            saveInput.AddLast(input);
+                            Console.Write(input);
+                        }
                     }  
                 }
             }
