@@ -118,7 +118,7 @@ namespace Zahlensystemrechner
                             numberCounter = 0;
                             operatorCounter++;
 
-                            if(operatorCounter < 2 )
+                            if(operatorCounter > 1 )
                             {
                                 this.error = true;
                                 this.errorPosition = i;
