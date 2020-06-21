@@ -81,7 +81,7 @@ namespace Zahlensystemrechner
 
                 CalcInput calc = new CalcInput(term);
                 BasicCalc startCalc = new BasicCalc();
-
+              
                 String[] dezArray = calc.GetCalcArray();
                 long solution = startCalc.GetSolution(dezArray);
 
@@ -89,9 +89,36 @@ namespace Zahlensystemrechner
                 solNumber.SetDecNumber(solution);
                 solField.WriteInfoText(Convert.ToString(solution));
                 solField.SaveAndClearInput(Convert.ToString(solution));
+              
+                String output = "";
+                if(calc.GetError()) {
+                    output = createErrorString(calc);
+                }
+                else {
+                    String[] dezArray = calc.GetCalcArray();
+                    
+                    long solution = startCalc.GetSolution(dezArray);
+                    Number solNumber = new Number();
+                    solNumber.SetDecNumber(solution);
+                    output = System.Convert.ToString(solution);
+                }
+                //TODO Ausgabe 
+                //Ausgabe am besten durch die Variable output. Andernfalls Rückgabewert der createErrorString Methode bearbeiten etc
             }
         }
-
+      
+        private String createErrorString(CalcInput calc) {
+            String errorString = "";
+            int errorPosition = calc.GetErrorPosition();
+            String errorInput = calc.GetOriginArray()[errorPosition];
+            errorString += "Fehler bei der Eingabe: " + errorInput + "\n";
+            errorString += "Vollständiger Term: ";
+            foreach(string str in calc.GetOriginArray()) {
+              errorString += str + " ";
+            }
+            return errorString;
+        }
+  
         private void AnsFunction(ref String term)
         {
             if (term.Contains("ANS"))
@@ -101,14 +128,13 @@ namespace Zahlensystemrechner
                 if (lastEntry.Count > 0)
                 {
                     var entry = lastEntry.Last;
-
                     term = term.Replace("ANS", entry.Value);
                 } else
                 {
-                    
                     //Schrei rum weil Fehler
                 }
             }
+            return errorString;
         }
 
         public static void Main()

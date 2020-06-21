@@ -114,62 +114,6 @@ namespace Zahlensystemrechner {
 			FromDecNumber();
 		}
 
-		//Rechnet die Zahlen A-F des Hexadezimalzahlensystems ihre ensprechenden Werte im Dezimalzahlensystem um
-		private int HexToDec(char number)
-		{
-			int decValue = 0;
-			switch(number)
-			{
-				case 'A': 
-					decValue = 10;
-					break;
-				case 'B':
-					decValue = 11;
-					break;
-				case 'C':
-					decValue = 12;
-					break;
-				case 'D':
-					decValue = 13;
-					break;
-				case 'E':
-					decValue = 14;
-					break;
-				case 'F':
-					decValue = 15;
-					break;
-			}
-			return decValue;
-		}
-
-		//Rechnet die Zahlen 10-15 des Dezimalzahlensystems in ihre ensprechenden Werte im Hexadezimalzahlensystem um
-		private string DecToHex(int number)
-		{
-			string hexDec = "";
-			switch(number)
-			{
-				case 10:
-					hexDec = "A";
-					break;
-				case 11:
-					hexDec = "B";
-					break;
-				case 12:
-					hexDec = "C";
-					break;
-				case 13:
-					hexDec = "D";
-					break;
-				case 14:
-					hexDec = "E";
-					break;
-				case 15:
-					hexDec = "F";
-					break;
-			}
-			return hexDec;
-		}
-
 		//splittet den Prefix der Eingabe ab und setzt den Wert des enstprechenden Zahlensystem gleich der Eingabe
 		//sollte kein Prefix eingegeben werden, wird der die Eingabe automatisch auf den den Dezimalwert der Zahl übertragen
 		private string GetNumberValue(string input)
@@ -228,21 +172,27 @@ namespace Zahlensystemrechner {
 	
 		//Überprüft, ob der eingegebene Zahlenstring richtig ist.
 		private Boolean CheckInput(String input, int system) {
+			Boolean isOk = true;            
 			List<string> symbols = new List<string>();
-			Boolean isOk = true;
 			//Erstelle eine Liste mit allen Zeichen, die eine Zahl im gewählten Zahlensystem enthalten darf
-			for(int i = 0; i < system; i++) {
+			for (int i = 0; i < system; i++)
+			{
 				symbols.Add(System.Convert.ToString(i));
-				if(i > 9) {
-					symbols.Add(DecToHex(i));
+				if (i > 9)
+				{
+					char hexNum = System.Convert.ToChar(hexConvert(i, true));
+					symbols.Add(System.Convert.ToString(hexNum));
 				}
 			}
-			for(int i = 0; i < input.Length; i++) {
+			for (int i = 0; i < input.Length; i++)
+			{
 				//Falls die Eingabe ein ungültiges Zeichen enhält setzte isOk auf false
-				if(!symbols.Contains(System.Convert.ToString(input[i]))) {
+				if (!symbols.Contains(System.Convert.ToString(input[i])))
+				{
 					isOk = false;
-				}		 
+				}
 			}
+			
 			//Setze error auf das Gegenteil von isOk. Denn wenn der String ok ist (isOk = true), enhält die Eingabe keinen Fehler
 			//(und damit error = false)
 			error = !isOk;
@@ -293,14 +243,16 @@ namespace Zahlensystemrechner {
 				//-'0' da ein char bei einer Konvertierung nach int immer in seinen Ascii-Wert umgewandelt wird.
 				char numberChar = number[i];
 				int indexNumber = 0;
+				int numCode = (numberChar);
 
-				if ((numberChar - '0') > 9)
-				{
-					indexNumber = HexToDec(numberChar);
+				if ( numCode > 9)
+				{	
+					char decNum = System.Convert.ToChar(hexConvert(numCode, false));
+					indexNumber = decNum ;
 				}
 				else
 				{
-					indexNumber = System.Convert.ToInt32(number[i] - '0');
+					indexNumber = asciiToValue(number[i]);
 				}
 				int exponent = number.Length - (i + 1);
 				decNumber = decNumber + System.Convert.ToInt64(indexNumber * Math.Pow(system, exponent));
@@ -337,8 +289,9 @@ namespace Zahlensystemrechner {
 					int num = System.Convert.ToInt32(decNumberCopy % systemsToCalculate[i]);
 
 					if (num > 9)
-                    {
-						number = DecToHex(num) + number;
+                    {	
+						char hexChar = System.Convert.ToChar(hexConvert(num, true));
+						number = hexChar + number;
                     }
                     else
                     {
@@ -351,6 +304,24 @@ namespace Zahlensystemrechner {
 			}
 		}
 
+		//Wandelt einen Dezimalwert in einen Hexadezimalwert, bzw einen Hexadezimalwert in einen Dezimalwert um. 
+		//(Verändert den ASCII-Code)
+		private int hexConvert(int number, Boolean isDez) 
+		{
+			int evaluater = -55;
+			if(isDez) {
+				evaluater = 55;
+			}
+			number = number + evaluater;
+			return number;
+		}
+
+		//Wandelt den Ascii-Wert einer Zahl in ihre tatsächliche Value um.
+		private int asciiToValue(char numberChar)
+        {
+			int number = numberChar - '0';
+			return number;
+        }
 		public String getAllSystems()
         {
 			String allSystemSolution = "";
