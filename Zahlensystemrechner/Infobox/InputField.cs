@@ -29,6 +29,12 @@ namespace Zahlensystemrechner
             {
                 String input = Console.ReadKey(true).KeyChar.ToString();
 
+                if (input.Equals("\u001b"))
+                {
+                    Console.SetCursorPosition(Console.WindowHeight, Console.WindowWidth);
+                    Environment.Exit(0);
+                }
+
                 if (input.Equals("\r") || input.Equals("=") || input.Equals(" "))
                 {
                     break;
