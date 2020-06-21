@@ -43,6 +43,7 @@ namespace Zahlensystemrechner
 
         public void ClearBox()
         {
+            Init();
             SetCursorPosition();
             for (int i = 0; i < height; i++)
             {

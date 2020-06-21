@@ -89,7 +89,7 @@ namespace Zahlensystemrechner
                         BasicCalc startCalc = new BasicCalc();
                         Number solNumber = new Number();
 
-                        String output = "";
+                        String output;
                         if (calc.GetError())
                         {
                             output = CreateErrorString(calc);
@@ -100,30 +100,29 @@ namespace Zahlensystemrechner
                             long solution = startCalc.GetSolution(dezArray);
 
                             solNumber.SetDecNumber(solution);
-                            output = System.Convert.ToString(solution);
+                            output = Convert.ToString(solution);
                         }
                         solField.SaveAndClearInput(output, calc.GetError());
                         solField.WriteInfoText(output);
+
                         if (this.allSolutions)
                         {
                             solNumber.ToOtherSystems();
                             WriteAllSolutions(solNumber);
                         }
                     }
-
                     //Falls ANS eingegeben wurde, obwohl noch keine erfolgreiche Berechnung durchgeführt wurde.
                     else
                     {
-                        solField.SaveAndClearInput("", false);
+                        solField.SaveAndClearInput("", true);
                         solField.WriteInfoText("ANS nicht möglich, da kein Ergebnis gespeichert wurde.");
                     }
                 }
-
                 //Wenn das Kürzel zum Ändern des Ausgabesystems eingegeben wurde   
                 else
                 {
                     solField.SaveAndClearInput("", false);
-                    String output = "";
+                    String output;
                     if(this.allSolutions)
                     {
                         output = "Ausgabe zu allen Zahlensystemen geändert.";
@@ -141,8 +140,10 @@ namespace Zahlensystemrechner
             String errorString = "";
             int errorPosition = calc.GetErrorPosition();
             String errorInput = calc.GetOriginArray()[errorPosition];
+
             errorString += "Fehler bei der Eingabe: " + errorInput + " ";
             errorString += "Vollständiger Term: ";
+
             foreach(string str in calc.GetOriginArray()) {
               errorString += str + " ";
             }
@@ -165,6 +166,7 @@ namespace Zahlensystemrechner
             solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber());
             solField.WriteInfoText("Hexadezimal : " + solNumber.GetHexDecNumber());
         }
+
         private bool AnsFunction(ref String term)
         {
             if (term.Contains("ANS"))
