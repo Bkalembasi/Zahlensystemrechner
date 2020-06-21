@@ -33,6 +33,7 @@ namespace Zahlensystemrechner
             WriteInfoText("Das Ergebnis wird standardmäßig in Dezimal angegeben. Durch Betätigen  der 'A'-Taste wird das Ergebnis in allen Zahlensystemen angegeben", false);
             WriteInfoText("", false);
             WriteInfoText("Ergebnisse werden ausschließlich in ganzen Zahlen angegeben", false);
+            WriteInfoText("Das Programm kann durch Tastendruck auf ESCAPE beendet werden", false);
             WriteInfoText("", false);
             WriteInfoText("Zahlen der verschiedenen Zahlensysteme müssen mit dem zugehörigen Präfix gekennzeichnet werden:", false);
             WriteInfoText("Oktal: O_", false);
