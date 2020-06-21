@@ -27,7 +27,7 @@ namespace Zahlensystemrechner
             SetCursorPosition();
             while(true)
             {
-                String input = Console.ReadKey().KeyChar.ToString();
+                String input = Console.ReadKey(true).KeyChar.ToString();
 
                 if (input.Equals("\r") || input.Equals("="))
                 {
@@ -36,24 +36,15 @@ namespace Zahlensystemrechner
 
                 if (input.Equals("\b"))
                 {
-                    if (saveInput.Count == width - 2)
-                    {
-                        Console.Write(" ");
-                    }
-                    Console.Write(" " + input);
-
+                    Console.Write(input + " " + input);
                     saveInput.RemoveLast();
                 } else
                 {
-                    if (saveInput.Count < width-2)
+                    if (saveInput.Count < width - 1)
                     {
                         saveInput.AddLast(input);
-                    } else
-                    {
-                        Console.Write("\b");
-                        saveInput.RemoveLast();
-                        saveInput.AddLast(input);
-                    }
+                        Console.Write(input);
+                    }  
                 }
             }
             ClearBox();
