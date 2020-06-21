@@ -28,7 +28,7 @@ namespace Zahlensystemrechner
             WriteInfoText("Infos:");
             WriteInfoText("Im linken Drittel werden die Ergebnisse angezeigt");
             WriteInfoText("Im mittleren Drittel können Terme zum Berechnen eingegeben werden");
-            WriteInfoText("Der Rechner beherrscht die Grundrechenarten + - / *");
+            WriteInfoText("Der Rechner beherrscht die Grundrechenarten + - / * ");
             WriteInfoText("");
             WriteInfoText("Der Rechner beachtet Klammern und Punkt-vor-Strich");
             WriteInfoText("");
