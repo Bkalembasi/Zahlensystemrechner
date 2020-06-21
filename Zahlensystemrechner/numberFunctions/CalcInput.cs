@@ -9,6 +9,8 @@ namespace Zahlensystemrechner
     {
         //Eine Kopie des Eingabearrays, in dem alle Zahlen ins Dezimalsystem umgewandelt werden
         private string[] calcArray;
+        //Das Array des eigentlichen Terms
+        private string[] originArray;
         //Hat die Eingabe einen Fehler? (zB eine Binärzahl mit einer 3)
         private Boolean error = false;
         //Position des Eingabefehlers (Falls einer vorhanden ist)
@@ -20,16 +22,27 @@ namespace Zahlensystemrechner
         //Ersetze alle klein geschriebenen Buchstaben durch die Großen und ersetze ":" durch "/"
         //Splitte den String bei Zahlen und Operatoren und wandle alle Zahlen ins Dezimalsystem um
         public CalcInput(string input)
-        {
+        { 
             numberList = new List<Number>();
             calcArray = SplitInput(input.ToUpper().Replace(":", "/"));
+            originArray = calcArray;
             ReplaceCalcArray();
+            if(calcArray[0] == "")
+            {
+                this.error = true;
+            }
         }
 
         //Gebe das Dezimalarray für die Berechnung zurück
         public string[] GetCalcArray()
         {
             return calcArray;
+        }
+
+        //Gebe das Array der ursprünglichen Eingabe zurück
+        public string[] GetOriginArray()
+        {
+            return originArray;
         }
 
         //Gebe Error zurück
@@ -64,6 +77,9 @@ namespace Zahlensystemrechner
         //Speichere die Zahlenobjekte in der numberList
         private void ReplaceCalcArray()
         {
+            int operatorCounter = 0;
+            int numberCounter = 0;
+            int clampCounter = 0;
             for (int i = 0; i < calcArray.Length; i++)
             {
                 //Generiere für jeden String ein Zahlenobjekt
@@ -81,12 +97,52 @@ namespace Zahlensystemrechner
                     //Falls das erstellte Zahlenobejekt kein Operator ist, speichere es in der numberList
                     //und tausche im Array die Zahl durch ihr Äquivalent im Dezimalsystem aus
                     if(!number.GetIsOperator())
-                    { 
-                        numberList.Add(number);
-                        calcArray[i] = number.GetDecNumber();
+                    {
+                        numberCounter++;
+                        operatorCounter = 0;
+                        if (numberCounter < 2)
+                        {
+                            numberList.Add(number);
+                            calcArray[i] = number.GetDecNumber();
+                        }
+                        else
+                        {
+                            this.error = true;
+                            this.errorPosition = i;
+                        }
+                    }
+                    else
+                    {
+                        if( calcArray[i] != "(" && calcArray[i] != ")")
+                        {
+                            numberCounter = 0;
+                            operatorCounter++;
+
+                            if(operatorCounter > 1 )
+                            {
+                                this.error = true;
+                                this.errorPosition = i;
+                            }
+                        }
+                        else
+                        {
+                            if( calcArray[i] == "(" )
+                            {
+                                clampCounter++;
+                            }
+                            else
+                            {
+                                clampCounter--;
+                            }
+                        }
                     }
                 }
 
+            }
+            if(clampCounter != 0)
+            {
+                this.error = true;
+                this.errorPosition = calcArray.Length - 1;
             }
         }
     }

@@ -16,6 +16,7 @@ namespace Zahlensystemrechner
         int width = Console.WindowWidth;
         int height = Console.WindowHeight;
         bool windowChanged = true;
+        bool allSolutions = false;
 
         protected Infobox inf = new RightInfoBox();
         protected InputField inputField = new InputField();
@@ -76,23 +77,97 @@ namespace Zahlensystemrechner
             while (true)
             {
                 String term = inputField.ReadInput();
+                term = term.ToUpper();
 
-                AnsFunction(ref term);
+                //Wenn nicht das Kürzel zum ändern der Ausgabemenge eingegeben wurde, berechne den Term
+                if(ChangeSolutionNumber(term))
+                {
+                    //Falls kein ANS eingegeben wurde oder ANS eingegeben wurde, nachdem ein Ergebnis gespeichert wurde.
+                    if(AnsFunction(ref term))
+                    {
+                        CalcInput calc = new CalcInput(term);
+                        BasicCalc startCalc = new BasicCalc();
+                        Number solNumber = new Number();
 
-                CalcInput calc = new CalcInput(term);
-                BasicCalc startCalc = new BasicCalc();
+                        String output;
+                        if (calc.GetError())
+                        {
+                            output = CreateErrorString(calc);
+                        }
+                        else
+                        {
+                            String[] dezArray = calc.GetCalcArray();
+                            long solution = startCalc.GetSolution(dezArray);
 
-                String[] dezArray = calc.GetCalcArray();
-                long solution = startCalc.GetSolution(dezArray);
+                            solNumber.SetDecNumber(solution);
+                            output = Convert.ToString(solution);
+                        }
+                        solField.SaveAndClearInput(output, calc.GetError());
+                        solField.WriteInfoText(output);
 
-                Number solNumber = new Number();
-                solNumber.SetDecNumber(solution);
-                solField.WriteInfoText(Convert.ToString(solution));
-                solField.SaveAndClearInput(Convert.ToString(solution));
+                        if (this.allSolutions)
+                        {
+                            solNumber.ToOtherSystems();
+                            WriteAllSolutions(solNumber);
+                        }
+                    }
+                    //Falls ANS eingegeben wurde, obwohl noch keine erfolgreiche Berechnung durchgeführt wurde.
+                    else
+                    {
+                        solField.SaveAndClearInput("", true);
+                        solField.WriteInfoText("ANS nicht möglich, da kein Ergebnis gespeichert wurde.");
+                    }
+                }
+                //Wenn das Kürzel zum Ändern des Ausgabesystems eingegeben wurde   
+                else
+                {
+                    solField.SaveAndClearInput("", false);
+                    String output;
+                    if(this.allSolutions)
+                    {
+                        output = "Ausgabe zu allen Zahlensystemen geändert.";
+                    }
+                    else
+                    {
+                        output = "Ausgabe zu nur dezimal geändert.";
+                    }
+                    solField.WriteInfoText(output);
+                }    
             }
         }
+      
+        private String CreateErrorString(CalcInput calc) {
+            String errorString = "";
+            int errorPosition = calc.GetErrorPosition();
+            String errorInput = calc.GetOriginArray()[errorPosition];
 
-        private void AnsFunction(ref String term)
+            errorString += "Fehler bei der Eingabe: " + errorInput + " ";
+            errorString += "Vollständiger Term: ";
+
+            foreach(string str in calc.GetOriginArray()) {
+              errorString += str + " ";
+            }
+            return errorString;
+        }
+  
+        private bool ChangeSolutionNumber (String term)
+        {
+            if(term == "A")
+            {
+                this.allSolutions = !this.allSolutions;
+                return false;
+            }
+            return true;
+        }
+
+        private void WriteAllSolutions(Number solNumber)
+        {
+            solField.WriteInfoText("Binär: " + solNumber.GetBinaryNumber());
+            solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber());
+            solField.WriteInfoText("Hexadezimal : " + solNumber.GetHexDecNumber());
+        }
+
+        private bool AnsFunction(ref String term)
         {
             term = term.ToUpper();
             if (term.Contains("ANS"))
@@ -102,14 +177,14 @@ namespace Zahlensystemrechner
                 if (lastEntry.Count > 0)
                 {
                     var entry = lastEntry.Last;
-
                     term = term.Replace("ANS", entry.Value);
+                    return true;
                 } else
                 {
-                    
-                    //Schrei rum weil Fehler
+                    return false;
                 }
             }
+            return true;
         }
 
         public static void Main()

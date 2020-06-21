@@ -14,15 +14,19 @@ namespace Zahlensystemrechner
         public override void Init()
         {
             this.width = Console.WindowWidth / 3 - 3;
+            this.height = Convert.ToInt32(Console.WindowHeight * 0.9) - 2;
             this.coordX = 1;
             this.coordY = 1;
         }
 
-        public void SaveAndClearInput(String input)
+        public void SaveAndClearInput(String input, bool error)
         {
-            this.saveInput.Clear();
+            if (!error)
+            {
+                this.saveInput.Clear();
+                this.saveInput.AddLast(input);
+            }
             ClearBox();
-            this.saveInput.AddLast(input);
         }
     }
 }

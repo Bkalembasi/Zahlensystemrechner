@@ -36,8 +36,14 @@ namespace Zahlensystemrechner
 
                 if (input.Equals("\b"))
                 {
-                    Console.Write(input + " " + input);
-                    saveInput.RemoveLast();
+                    if (saveInput.Count <= 0)
+                    {
+                      Console.Write(input + " " + input);
+                    } else
+                    {
+                        Console.Write(" " + input);
+                        saveInput.RemoveLast();
+                    }
                 } else
                 {
                     if (saveInput.Count < width - 1)
