@@ -24,21 +24,21 @@ namespace Zahlensystemrechner
 
         public void InfoTextContent()
         {
-            WriteInfoText("Zahlensystem-Rechner");
-            WriteInfoText("Infos:");
-            WriteInfoText("Im linken Drittel werden die Ergebnisse angezeigt");
-            WriteInfoText("Im mittleren Drittel können Terme zum Berechnen eingegeben werden");
-            WriteInfoText("Der Rechner beherrscht die Grundrechenarten + - / * ");
-            WriteInfoText("");
-            WriteInfoText("Der Rechner beachtet Klammern und Punkt-vor-Strich");
-            WriteInfoText("");
-            WriteInfoText("Das Ergebnis wird mit Betätigen der Return- oder =-Taste berechnet und ausgegeben");
-            WriteInfoText("");
-            WriteInfoText("Zahlen der verschiedenen Zahlensysteme müssen mit dem zugehörigen Präfix gekennzeichnet werden:");
-            WriteInfoText("Oktal: O_");
-            WriteInfoText("Binär: B_");
-            WriteInfoText("Hexadezimal: H_");
-            WriteInfoText("Dezimal: ohne Präfix");
+            WriteInfoText("Zahlensystem-Rechner", false);
+            WriteInfoText("Infos:", false);
+            WriteInfoText("Im linken Drittel werden die Ergebnisse angezeigt", false);
+            WriteInfoText("Im mittleren Drittel können Terme zum Berechnen eingegeben werden", false);
+            WriteInfoText("Der Rechner beherrscht die Grundrechenarten + - / * ", false);
+            WriteInfoText("", false);
+            WriteInfoText("Der Rechner beachtet Klammern und Punkt-vor-Strich", false);
+            WriteInfoText("", false);
+            WriteInfoText("Das Ergebnis wird mit Betätigen der Return- oder =-Taste berechnet und ausgegeben", false);
+            WriteInfoText("", false);
+            WriteInfoText("Zahlen der verschiedenen Zahlensysteme müssen mit dem zugehörigen Präfix gekennzeichnet werden:", false);
+            WriteInfoText("Oktal: O_", false);
+            WriteInfoText("Binär: B_", false);
+            WriteInfoText("Hexadezimal: H_", false);
+            WriteInfoText("Dezimal: ohne Präfix", false);
         }
 
         public void ClearBox()
@@ -59,9 +59,19 @@ namespace Zahlensystemrechner
 
         public void PrintSavedInput()
         {
+            Init();
             SetCursorPosition();
             String savedInput = String.Join("", saveInput.ToArray());
-            Console.Write(savedInput);
+            int removeCharCount = WriteInfoText(savedInput, true);
+            LeonStinkt(removeCharCount);
+        }
+
+        private void LeonStinkt(int removeCharCount)
+        {
+            for(int i = 0; i < removeCharCount; i++)
+            {
+                this.saveInput.RemoveLast();
+            }
         }
 
         public void SetCursorPosition()
@@ -69,12 +79,28 @@ namespace Zahlensystemrechner
             Console.SetCursorPosition(this.coordX, this.coordY);
         }
 
-        public void WriteInfoText(string s)
+        public int WriteInfoText(string s, bool remRest)
         {
+            bool hasWritten = false;
+            int cutStringLength = 0;
             if (this.coordX > Console.WindowWidth || this.coordY > Console.WindowHeight)
             {
-                return;
+                return 0;
             }
+
+            if (remRest)
+            {
+                if (s.Length >= width)
+                {
+                    String output = s.Substring(0, width - 1);
+                    cutStringLength = s.Length - output.Length;
+                    Console.Write(output);
+                } else
+                {
+                    Console.Write(s);
+                }
+                return cutStringLength;
+            } 
             int wordlength = 0;
             string[] words = s.Split(' ');
 
@@ -90,8 +116,14 @@ namespace Zahlensystemrechner
                     Console.SetCursorPosition(this.coordX, ++this.coordY);
                 }
                 Console.Write(words[i] + " ");
+                hasWritten = true;
             }
-            this.coordY++;
+
+            if (hasWritten)
+            {
+                this.coordY++;
+            }
+            return 0;
         }
     }
 }

@@ -103,7 +103,7 @@ namespace Zahlensystemrechner
                             output = Convert.ToString(solution);
                         }
                         solField.SaveAndClearInput(output, calc.GetError());
-                        solField.WriteInfoText(output);
+                        solField.WriteInfoText(output, false);
 
                         if (this.allSolutions)
                         {
@@ -115,7 +115,7 @@ namespace Zahlensystemrechner
                     else
                     {
                         solField.SaveAndClearInput("", true);
-                        solField.WriteInfoText("ANS nicht möglich, da kein Ergebnis gespeichert wurde.");
+                        solField.WriteInfoText("ANS nicht möglich, da kein Ergebnis gespeichert wurde.", false);
                     }
                 }
                 //Wenn das Kürzel zum Ändern des Ausgabesystems eingegeben wurde   
@@ -131,7 +131,7 @@ namespace Zahlensystemrechner
                     {
                         output = "Ausgabe zu nur dezimal geändert.";
                     }
-                    solField.WriteInfoText(output);
+                    solField.WriteInfoText(output, false);
                 }    
             }
         }
@@ -162,9 +162,9 @@ namespace Zahlensystemrechner
 
         private void WriteAllSolutions(Number solNumber)
         {
-            solField.WriteInfoText("Binär: " + solNumber.GetBinaryNumber());
-            solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber());
-            solField.WriteInfoText("Hexadezimal : " + solNumber.GetHexDecNumber());
+            solField.WriteInfoText("Binär: " + solNumber.GetBinaryNumber(), false);
+            solField.WriteInfoText("Oktal: " + solNumber.GetOctaNumber(), false);
+            solField.WriteInfoText("Hexadezimal : " + solNumber.GetHexDecNumber(), false);
         }
 
         private bool AnsFunction(ref String term)

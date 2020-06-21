@@ -38,10 +38,10 @@ namespace Zahlensystemrechner
                 {
                     if (saveInput.Count <= 0)
                     {
-                      Console.Write(input + " " + input);
+                        Console.Write(" " + input);
                     } else
                     {
-                        Console.Write(" " + input);
+                        Console.Write(input + " " + input);
                         saveInput.RemoveLast();
                     }
                 } else
